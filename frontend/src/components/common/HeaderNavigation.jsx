@@ -111,10 +111,11 @@ const HeaderNavigation = ({ activeTab, setActiveTab, cartCount, productTab, setP
               href={process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '/'}
               className="relative mr-3 hover:opacity-80 transition-opacity"
             >
-              <div className="w-12 h-12 bg-orange-400 rounded-full flex items-center justify-center shadow-lg">
-                <div className="absolute -top-1 -right-1 w-6 h-4 bg-green-400 rounded-full transform rotate-12"></div>
-                <span className="text-white text-lg font-bold z-10">妙</span>
-              </div>
+              <img 
+                src="/images/logo-nobackground.png" 
+                alt="妙媽媽果園" 
+                className="w-12 h-12 rounded-full shadow-lg object-cover"
+              />
             </a>
             
             {/* 品牌名稱 */}
@@ -189,10 +190,11 @@ const HeaderNavigation = ({ activeTab, setActiveTab, cartCount, productTab, setP
               href={process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '/'}
               className="relative mr-3 hover:opacity-80 transition-opacity"
             >
-              <div className="w-10 h-10 bg-orange-400 rounded-full flex items-center justify-center shadow-lg">
-                <div className="absolute -top-1 -right-1 w-5 h-3 bg-green-400 rounded-full transform rotate-12"></div>
-                <span className="text-white text-sm font-bold z-10">妙</span>
-              </div>
+              <img 
+                src="/images/logo-nobackground.png" 
+                alt="妙媽媽果園" 
+                className="w-10 h-10 rounded-full shadow-lg object-cover"
+              />
             </a>
             
             {/* 品牌名稱 */}
