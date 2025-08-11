@@ -102,7 +102,7 @@ const OrderForm = ({ cart, onSubmitOrder, isSubmitting }) => {
               onChange={(e) => setFormData({...formData, paymentMethod: e.target.value})}
               className="w-4 h-4 text-orange-500"
             />
-            <span>銀行匯款/現金支付</span>
+            <span>銀行匯款</span>
           </label>
           <div className="ml-7 text-sm text-gray-600 space-y-1">
             <p>中華郵政代號: 700</p>

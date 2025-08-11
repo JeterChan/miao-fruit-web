@@ -8,7 +8,64 @@ import useCart from './hooks/useCart';
 
 const App = () => {
   const [products, setProducts] = useState({ singleLayer: [], doubleLayer: [] });
-  const [carouselImages, setCarouselImages] = useState([]);
+  const [carouselImages] = useState([
+    {
+      id: 1,
+      title: '雙粒裝精美包裝',
+      description: '特選雙粒裝，口感絕佳',
+      type: 'real-photo',
+      filename: 'two-piece.jpg'
+    },
+    {
+      id: 2,
+      title: '雙粒裝禮盒',
+      description: '精美雙粒裝包裝',
+      type: 'real-photo',
+      filename: 'two-piece-box.jpg'
+    },
+    {
+      id: 3,
+      title: '5粒裝禮盒',
+      description: '家庭分享裝，香甜多汁',
+      type: 'real-photo',
+      filename: 'five-piece.jpg'
+    },
+    {
+      id: 4,
+      title: '6粒裝禮盒',
+      description: '適合送禮的精美包裝',
+      type: 'real-photo',
+      filename: 'six-piece.jpg'
+    },
+    {
+      id: 5,
+      title: '7粒裝禮盒',
+      description: '大家庭分享裝',
+      type: 'real-photo',
+      filename: 'seven-piece.jpg'
+    },
+    {
+      id: 6,
+      title: '單層禮盒包裝',
+      description: '卓蘭特產高接梨，精選品質',
+      type: 'real-photo',
+      filename: 'single-box.jpg'
+    },
+    {
+      id: 7,
+      title: '雙層禮盒包裝',
+      description: '精美雙層裝',
+      type: 'real-photo',
+      filename: 'double-box.jpg'
+    },
+    {
+      id: 8,
+      title: '外觀包裝展示',
+      description: '精美包裝設計',
+      type: 'real-photo',
+      filename: 'outfit.jpg'
+    }
+  ]);
   const [activeTab, setActiveTab] = useState('products');
   const [productTab, setProductTab] = useState('single'); // 新增產品類別狀態
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -24,14 +81,10 @@ const App = () => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const [productsData, imagesData] = await Promise.all([
-          api.getProducts(),
-          api.getCarouselImages()
-        ]);
+        const productsData = await api.getProducts();
         setProducts(productsData);
-        setCarouselImages(imagesData);
       } catch (error) {
-        console.error('載入數據失敗:', error);
+        console.error('載入產品數據失敗:', error);
       }
     };
 

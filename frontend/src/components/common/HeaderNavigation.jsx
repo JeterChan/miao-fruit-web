@@ -26,17 +26,25 @@ const HeaderNavigation = ({ activeTab, setActiveTab, cartCount, productTab, setP
         <div className="hidden md:flex items-center justify-between">
           <div className="flex items-center">
             {/* Logo 圖片區域 */}
-            <div className="relative mr-4">
+            <a 
+              href={process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '/'}
+              className="relative mr-4 hover:opacity-80 transition-opacity"
+            >
               <img 
                 src="/images/logo-nobackground.png" 
                 alt="妙媽媽果園" 
                 className="w-16 h-16 rounded-full shadow-lg object-cover"
               />
-            </div>
+            </a>
             
             {/* 品牌名稱和標語 */}
             <div>
-              <h1 className="text-2xl font-bold text-gray-800">妙媽媽果園</h1>
+              <a 
+                href={process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '/'}
+                className="text-2xl font-bold text-gray-800 hover:text-orange-700 transition-colors"
+              >
+                妙媽媽果園
+              </a>
               <p className="text-gray-600 text-sm">香甜可口好滋味・脆口多汁有夠讚</p>
             </div>
           </div>
@@ -99,16 +107,24 @@ const HeaderNavigation = ({ activeTab, setActiveTab, cartCount, productTab, setP
         <div className="hidden sm:flex md:hidden items-center justify-between">
           <div className="flex items-center">
             {/* Logo */}
-            <div className="relative mr-3">
+            <a 
+              href={process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '/'}
+              className="relative mr-3 hover:opacity-80 transition-opacity"
+            >
               <div className="w-12 h-12 bg-orange-400 rounded-full flex items-center justify-center shadow-lg">
                 <div className="absolute -top-1 -right-1 w-6 h-4 bg-green-400 rounded-full transform rotate-12"></div>
                 <span className="text-white text-lg font-bold z-10">妙</span>
               </div>
-            </div>
+            </a>
             
             {/* 品牌名稱 */}
             <div>
-              <h1 className="text-xl font-bold text-gray-800">妙媽媽果園</h1>
+              <a 
+                href={process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '/'}
+                className="text-xl font-bold text-gray-800 hover:text-orange-700 transition-colors"
+              >
+                妙媽媽果園
+              </a>
               <p className="text-gray-600 text-xs">香甜可口好滋味・脆口多汁有夠讚</p>
             </div>
           </div>
@@ -169,16 +185,24 @@ const HeaderNavigation = ({ activeTab, setActiveTab, cartCount, productTab, setP
         <div className="flex sm:hidden items-center justify-between">
           <div className="flex items-center">
             {/* Logo */}
-            <div className="relative mr-3">
+            <a 
+              href={process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '/'}
+              className="relative mr-3 hover:opacity-80 transition-opacity"
+            >
               <div className="w-10 h-10 bg-orange-400 rounded-full flex items-center justify-center shadow-lg">
                 <div className="absolute -top-1 -right-1 w-5 h-3 bg-green-400 rounded-full transform rotate-12"></div>
                 <span className="text-white text-sm font-bold z-10">妙</span>
               </div>
-            </div>
+            </a>
             
             {/* 品牌名稱 */}
             <div>
-              <h1 className="text-lg font-bold text-gray-800">妙媽媽果園</h1>
+              <a 
+                href={process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '/'}
+                className="text-lg font-bold text-gray-800 hover:text-orange-700 transition-colors"
+              >
+                妙媽媽果園
+              </a>
             </div>
           </div>
 
