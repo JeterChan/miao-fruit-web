@@ -1,34 +1,24 @@
-export const mockAPI = {
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000/api';
+
+export const api = {
   getProducts: async () => {
-    await new Promise(resolve => setTimeout(resolve, 500));
-    
-    return {
-      singleLayer: [
-        { id: '16A', grade: '16A', quantity: 9, price: 700 },
-        { id: '18A', grade: '18A', quantity: 8, price: 700 },
-        { id: '20A', grade: '20A', quantity: 7, price: 800 },
-        { id: '22A', grade: '22A', quantity: 6, price: 900 },
-        { id: '24A', grade: '24A', quantity: 6, price: 1000 },
-        { id: '26A', grade: '26A', quantity: 5, price: 1000 },
-        { id: '28A', grade: '28A', quantity: 5, price: 1100 },
-        { id: '30A', grade: '30A', quantity: 5, price: 1200 },
-        { id: '32A', grade: '32A', quantity: 5, price: 1300 },
-        { id: '34A-5', grade: '34A', quantity: 5, price: 1400 },
-        { id: '36A-5', grade: '36A', quantity: 5, price: 1500 },
-        { id: '38A', grade: '38A', quantity: 4, price: 1500 },
-      ],
-      doubleLayer: [
-        { id: '34A-2', grade: '34A', quantity: 2, price: 500 },
-        { id: '36A-2', grade: '36A', quantity: 2, price: 600 },
-        { id: '38A-2', grade: '38A', quantity: 2, price: 700 },
-        { id: '40A', grade: '40A', quantity: 2, price: 800 },
-      ]
-    };
+    try {
+      const response = await fetch(`${API_BASE_URL}/products`, {
+        credentials: 'include',
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching products:', error);
+      throw error;
+    }
   },
 
   getCarouselImages: async () => {
-    await new Promise(resolve => setTimeout(resolve, 300));
-    
     return [
       {
         id: 1,
@@ -68,13 +58,28 @@ export const mockAPI = {
     ];
   },
 
-  submitOrder: async (orderData) => {
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    console.log('訂單提交:', orderData);
-    return { 
-      success: true, 
-      orderId: 'ORD' + Date.now(),
-      message: '訂單提交成功'
-    };
+  submitOrder: async (orderData, cartItems) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/orders/submit`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          ...orderData,
+          cartItems
+        }),
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      return await response.json();
+    } catch (error) {
+      console.error('Error submitting order:', error);
+      throw error;
+    }
   }
 };

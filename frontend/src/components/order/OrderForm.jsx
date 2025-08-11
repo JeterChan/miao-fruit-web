@@ -9,7 +9,6 @@ const OrderForm = ({ cart, onSubmitOrder, isSubmitting }) => {
     receiverName: '',
     receiverPhone: '',
     receiverAddress: '',
-    paymentMethod: '匯款',
     notes: ''
   });
 

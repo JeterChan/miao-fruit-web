@@ -3,7 +3,7 @@ import HeaderNavigation from './components/common/HeaderNavigation';
 import Footer from './components/common/Footer';
 import ProductList from './components/product/ProductList';
 import Cart from './components/cart/Cart';
-import { mockAPI } from './services/api';
+import { api } from './services/api';
 import useCart from './hooks/useCart';
 
 const App = () => {
@@ -25,8 +25,8 @@ const App = () => {
     const loadData = async () => {
       try {
         const [productsData, imagesData] = await Promise.all([
-          mockAPI.getProducts(),
-          mockAPI.getCarouselImages()
+          api.getProducts(),
+          api.getCarouselImages()
         ]);
         setProducts(productsData);
         setCarouselImages(imagesData);
@@ -41,13 +41,14 @@ const App = () => {
   const submitOrder = async (orderData) => {
     setIsSubmitting(true);
     try {
-      const result = await mockAPI.submitOrder(orderData);
-      if (result.success) {
-        alert(`訂單提交成功！訂單編號：${result.orderId}`);
+      const result = await api.submitOrder(orderData, cart);
+      if (result.status === 'success') {
+        alert(`訂單提交成功！訂單編號：${result.data.orderNumber}`);
         clearCart();
         setActiveTab('products');
       }
     } catch (error) {
+      console.log(error);
       alert('訂單提交失敗，請稍後再試');
     } finally {
       setIsSubmitting(false);
