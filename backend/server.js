@@ -19,7 +19,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 
 // 中間件設定
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:3000',
+  origin: process.env.CLIENT_URL,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
@@ -30,7 +30,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Session 設定（用於儲存購物車，過期時間 1 小時）
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'your-session-secret-key',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
   store: MongoStore.create({
@@ -92,6 +92,6 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 伺服器運行在 port ${PORT}`);
   console.log(`📍 環境: ${process.env.NODE_ENV}`);
-  console.log(`🌐 CORS 允許來源: ${process.env.CLIENT_URL || 'http://localhost:3000'}`);
+  console.log(`🌐 CORS 允許來源: ${process.env.CLIENT_URL}`);
   console.log(`⏰ Session 過期時間: 1 小時`);
 });
