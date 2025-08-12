@@ -10,7 +10,9 @@ backend/build/
 
 # Environment variables
 frontend/.env
+frontend/.env.development
 backend/.env
+backend/.env.development
 
 # Logs
 frontend/npm-debug.log*

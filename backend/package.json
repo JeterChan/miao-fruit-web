@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
+    "start:dev": "node -r dotenv/config server.js dotenv_config_path=.env.development",
+    "start:prod": "node -r dotenv/config server.js dotenv_config_path=.env",
     "dev": "nodemon server.js",
+    "dev:env": "nodemon -r dotenv/config server.js dotenv_config_path=.env.development",
     "test": "jest --runInBand",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
