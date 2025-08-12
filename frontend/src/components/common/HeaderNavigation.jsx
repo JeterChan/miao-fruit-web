@@ -27,7 +27,7 @@ const HeaderNavigation = ({ activeTab, setActiveTab, cartCount, productTab, setP
           <div className="flex items-center">
             {/* Logo 圖片區域 */}
             <a 
-              href={process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '/'}
+              href={process.env.NODE_ENV === 'development' ? process.env.REACT_APP_FRONTEND_URL : '/'}
               className="relative mr-4 hover:opacity-80 transition-opacity"
             >
               <img 
@@ -40,7 +40,7 @@ const HeaderNavigation = ({ activeTab, setActiveTab, cartCount, productTab, setP
             {/* 品牌名稱和標語 */}
             <div>
               <a 
-                href={process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '/'}
+                href={process.env.NODE_ENV === 'development' ? process.env.REACT_APP_FRONTEND_URL : '/'}
                 className="text-2xl font-bold text-gray-800 hover:text-orange-700 transition-colors"
               >
                 妙媽媽果園
@@ -108,7 +108,7 @@ const HeaderNavigation = ({ activeTab, setActiveTab, cartCount, productTab, setP
           <div className="flex items-center">
             {/* Logo */}
             <a 
-              href={process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '/'}
+              href={process.env.NODE_ENV === 'development' ? process.env.REACT_APP_FRONTEND_URL : '/'}
               className="relative mr-3 hover:opacity-80 transition-opacity"
             >
               <img 
@@ -121,7 +121,7 @@ const HeaderNavigation = ({ activeTab, setActiveTab, cartCount, productTab, setP
             {/* 品牌名稱 */}
             <div>
               <a 
-                href={process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '/'}
+                href={process.env.NODE_ENV === 'development' ? process.env.REACT_APP_FRONTEND_URL : '/'}
                 className="text-xl font-bold text-gray-800 hover:text-orange-700 transition-colors"
               >
                 妙媽媽果園
@@ -187,7 +187,7 @@ const HeaderNavigation = ({ activeTab, setActiveTab, cartCount, productTab, setP
           <div className="flex items-center">
             {/* Logo */}
             <a 
-              href={process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '/'}
+              href={process.env.NODE_ENV === 'development' ? process.env.REACT_APP_FRONTEND_URL : '/'}
               className="relative mr-3 hover:opacity-80 transition-opacity"
             >
               <img 
@@ -200,7 +200,7 @@ const HeaderNavigation = ({ activeTab, setActiveTab, cartCount, productTab, setP
             {/* 品牌名稱 */}
             <div>
               <a 
-                href={process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '/'}
+                href={process.env.NODE_ENV === 'development' ? process.env.REACT_APP_FRONTEND_URL : '/'}
                 className="text-lg font-bold text-gray-800 hover:text-orange-700 transition-colors"
               >
                 妙媽媽果園
