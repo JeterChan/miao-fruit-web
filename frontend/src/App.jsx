@@ -3,6 +3,7 @@ import HeaderNavigation from './components/common/HeaderNavigation';
 import Footer from './components/common/Footer';
 import ProductList from './components/product/ProductList';
 import Cart from './components/cart/Cart';
+import OrderSuccess from './components/order/OrderSuccess';
 import { api } from './services/api';
 import useCart from './hooks/useCart';
 
@@ -69,6 +70,7 @@ const App = () => {
   const [activeTab, setActiveTab] = useState('products');
   const [productTab, setProductTab] = useState('single'); // 新增產品類別狀態
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [orderSuccess, setOrderSuccess] = useState(null);
   
   const {
     cart,
@@ -96,9 +98,26 @@ const App = () => {
     try {
       const result = await api.submitOrder(orderData, cart);
       if (result.status === 'success') {
-        alert(`訂單提交成功！訂單編號：${result.data.orderNumber}`);
+        // 準備訂單成功頁面的數據
+        const successData = {
+          orderNumber: result.data.orderNumber,
+          senderName: orderData.senderName,
+          senderPhone: orderData.senderPhone,
+          senderAddress: orderData.senderAddress,
+          receiverName: orderData.receiverName,
+          receiverPhone: orderData.receiverPhone,
+          receiverAddress: orderData.receiverAddress,
+          notes: orderData.notes,
+          items: cart.map(item => ({
+            grade: item.grade,
+            quantity: item.cartQuantity,
+            price: item.price
+          }))
+        };
+        
+        setOrderSuccess(successData);
         clearCart();
-        setActiveTab('products');
+        setActiveTab('order-success');
       }
     } catch (error) {
       console.log(error);
@@ -106,6 +125,12 @@ const App = () => {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleBackToProducts = () => {
+    setOrderSuccess(null);
+    setActiveTab('products');
+    setProductTab('single');
   };
 
   return (
@@ -137,6 +162,13 @@ const App = () => {
             onSubmitOrder={submitOrder}
             isSubmitting={isSubmitting}
             onBackToProducts={() => setActiveTab('products')}
+          />
+        )}
+
+        {activeTab === 'order-success' && orderSuccess && (
+          <OrderSuccess
+            orderData={orderSuccess}
+            onBackToProducts={handleBackToProducts}
           />
         )}
       </main>
