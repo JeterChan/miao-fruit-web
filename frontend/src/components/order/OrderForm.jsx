@@ -101,13 +101,17 @@ const OrderForm = ({ cart, onSubmitOrder, isSubmitting }) => {
               checked={formData.paymentMethod === '匯款'}
               onChange={(e) => setFormData({...formData, paymentMethod: e.target.value})}
               className="w-4 h-4 text-orange-500"
+              required
             />
-            <span>銀行匯款</span>
+            <span>銀行匯款/轉帳</span>
           </label>
           <div className="ml-7 text-sm text-gray-600 space-y-1">
             <p>中華郵政代號: 700</p>
             <p>戶名: 劉芳妙</p>
             <p>帳號: 0291377-0159424</p>
+            <p className="text-orange-600 text-sm mt-4">
+              ※ 匯款完成後，請務必告知「匯款帳號末5碼」及「匯款金額」
+            </p>
           </div>
         </div>
       </div>
@@ -131,6 +135,7 @@ const OrderForm = ({ cart, onSubmitOrder, isSubmitting }) => {
           {totalAmount < 1000 && (
             <p className="text-sm text-orange-600">※ 單筆運費$100，滿$1000免運費</p>
           )}
+          <p className="text-red-500">只限「郵局宅配」運送（週一～週四寄貨）</p>
         </div>
       </div>
 
