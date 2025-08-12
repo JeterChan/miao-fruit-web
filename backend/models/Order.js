@@ -102,7 +102,6 @@ const orderSchema = new mongoose.Schema({
 
 // 建立索引
 orderSchema.index({ orderNumber: 1 });
-orderSchema.index({ 'customer.email': 1 });
 orderSchema.index({ status: 1 });
 orderSchema.index({ createdAt: -1 });
 
