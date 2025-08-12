@@ -25,6 +25,18 @@ const getAllProducts = async (req, res) => {
         singleLayer.push(productData);
       }
     });
+
+    // 按照 ID 中的數字部分排序
+    const sortByNumericId = (a, b) => {
+      const getNumericPart = (id) => {
+        const match = id.match(/(\d+)/);
+        return match ? parseInt(match[1]) : 0;
+      };
+      return getNumericPart(a.id) - getNumericPart(b.id);
+    };
+
+    singleLayer.sort(sortByNumericId);
+    doubleLayer.sort(sortByNumericId);
     
     res.status(200).json({
       singleLayer,
