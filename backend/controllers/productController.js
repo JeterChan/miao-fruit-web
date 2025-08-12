@@ -26,17 +26,11 @@ const getAllProducts = async (req, res) => {
       }
     });
 
-    // 按照 ID 中的數字部分排序
-    const sortByNumericId = (a, b) => {
-      const getNumericPart = (id) => {
-        const match = id.match(/(\d+)/);
-        return match ? parseInt(match[1]) : 0;
-      };
-      return getNumericPart(a.id) - getNumericPart(b.id);
-    };
+    // 按照價格排序（由低到高）
+    const sortByPrice = (a, b) => a.price - b.price;
 
-    singleLayer.sort(sortByNumericId);
-    doubleLayer.sort(sortByNumericId);
+    singleLayer.sort(sortByPrice);
+    doubleLayer.sort(sortByPrice);
     
     res.status(200).json({
       singleLayer,
