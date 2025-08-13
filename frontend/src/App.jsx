@@ -6,9 +6,21 @@ import Cart from './components/cart/Cart';
 import OrderSuccess from './components/order/OrderSuccess';
 import { api } from './services/api';
 import useCart from './hooks/useCart';
+import { useLiff } from './hooks/useLiff';
 
 const App = () => {
   const [products, setProducts] = useState({ singleLayer: [], doubleLayer: [] });
+  
+  const {
+    isInitialized,
+    isLoggedIn,
+    profile,
+    error: liffError,
+    loading: liffLoading,
+    login,
+    logout,
+    sendMessage
+  } = useLiff(process.env.REACT_APP_LIFF_ID);
   const [carouselImages] = useState([
     {
       id: 1,
