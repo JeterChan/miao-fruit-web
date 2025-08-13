@@ -44,6 +44,7 @@ const submitOrder = async (req, res) => {
     
     // 調試：印出收到的資料
     console.log('Received request body:', req.body);
+    console.log('Line User ID:', lineUserId);
     console.log('Cart items:', cartItems);
     console.log('Order data:', orderData);
     
