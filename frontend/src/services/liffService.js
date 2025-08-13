@@ -63,9 +63,23 @@ class LiffService {
     }
 
     try {
-      return await this.liff.getProfile();
+      const profile = await this.liff.getProfile();
+      console.log('LINE User Profile:', profile);
+      return profile;
     } catch (error) {
       console.error('Failed to get profile:', error);
+      
+      // Development fallback - return mock profile
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('Using mock profile for development');
+        return {
+          userId: 'U' + Math.random().toString(36).substr(2, 32),
+          displayName: 'Dev User',
+          pictureUrl: 'https://via.placeholder.com/150',
+          statusMessage: 'Development mode'
+        };
+      }
+      
       throw error;
     }
   }
