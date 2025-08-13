@@ -2,7 +2,6 @@ const Order = require('../models/Order');
 const OrderItem = require('../models/OrderItem');
 const Product = require('../models/Product');
 const mongoose = require('mongoose');
-const lineService = require('../services/lineService');
 
 // 產生唯一訂單編號
 const generateOrderNumber = async () => {
@@ -38,13 +37,11 @@ const submitOrder = async (req, res) => {
     // 從前端取得購物車資料和訂單資訊
     const {
       cartItems,
-      lineUserId,
       ...orderData
     } = req.body;
     
     // 調試：印出收到的資料
     console.log('Received request body:', req.body);
-    console.log('Line User ID:', lineUserId);
     console.log('Cart items:', cartItems);
     console.log('Order data:', orderData);
     
@@ -155,28 +152,6 @@ const submitOrder = async (req, res) => {
     
     // 提交交易
     await session.commitTransaction();
-    
-    // 發送 LINE 訂單確認訊息
-    if (lineUserId) {
-      try {
-        const orderDetailsForLine = {
-          id: order[0].orderNumber,
-          total: order[0].totalAmount,
-          status: order[0].status,
-          items: cartItems.map(item => ({
-            name: item.grade || 'Product',
-            quantity: item.cartQuantity,
-            price: item.price || 0
-          }))
-        };
-        
-        await lineService.sendOrderConfirmation(lineUserId, orderDetailsForLine);
-        console.log(`LINE 訂單確認訊息已發送至用戶 ${lineUserId}`);
-      } catch (lineError) {
-        console.error('發送 LINE 訊息失敗:', lineError);
-        // LINE 訊息發送失敗不影響訂單建立
-      }
-    }
     
     // 回傳訂單資訊
     res.status(201).json({

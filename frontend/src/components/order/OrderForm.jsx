@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { User, MapPin } from 'lucide-react';
-import { useLiff } from '../../hooks/useLiff';
 
 const OrderForm = ({ cart, onSubmitOrder, isSubmitting }) => {
-  const { profile } = useLiff(process.env.REACT_APP_LIFF_ID);
   const [formData, setFormData] = useState({
     senderName: '',
     senderPhone: '',
@@ -19,7 +17,7 @@ const OrderForm = ({ cart, onSubmitOrder, isSubmitting }) => {
       alert('請填寫必要資訊');
       return;
     }
-    onSubmitOrder({ ...formData, cart }, profile?.userId);
+    onSubmitOrder({ ...formData, cart });
   };
 
   const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.cartQuantity), 0);

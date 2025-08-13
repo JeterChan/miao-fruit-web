@@ -19,7 +19,7 @@ export const api = {
   },
 
 
-  submitOrder: async (orderData, cartItems, lineUserId = null) => {
+  submitOrder: async (orderData, cartItems) => {
     try {
       const response = await fetch(`${API_BASE_URL}/orders/submit`, {
         method: 'POST',
@@ -29,8 +29,7 @@ export const api = {
         credentials: 'include',
         body: JSON.stringify({
           ...orderData,
-          cartItems,
-          lineUserId
+          cartItems
         }),
       });
       

@@ -93,10 +93,10 @@ const App = () => {
     loadData();
   }, []);
 
-  const submitOrder = async (orderData, lineUserId) => {
+  const submitOrder = async (orderData) => {
     setIsSubmitting(true);
     try {
-      const result = await api.submitOrder(orderData, cart, lineUserId);
+      const result = await api.submitOrder(orderData, cart);
       if (result.status === 'success') {
         // 準備訂單成功頁面的數據
         const successData = {
