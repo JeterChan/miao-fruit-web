@@ -147,6 +147,9 @@ const App = () => {
             // Create order data for message
             const messageOrderData = {
               orderNumber: result.data.orderNumber,
+              senderName: orderData.senderName,
+              senderPhone: orderData.senderPhone,
+              senderAddress: orderData.senderAddress,
               receiverName: orderData.receiverName,
               receiverPhone: orderData.receiverPhone,
               receiverAddress: orderData.receiverAddress

@@ -17,12 +17,7 @@ export class LineMessageService {
             size: "xl",
             color: "#FF6B35"
           },
-          {
-            type: "text",
-            text: "訂單確認通知",
-            size: "md",
-            color: "#666666"
-          }
+          this._createOrderNumberSection(orderData.orderNumber),
         ],
         backgroundColor: "#FFF8F0",
         paddingAll: "20px"
@@ -31,7 +26,8 @@ export class LineMessageService {
         type: "box",
         layout: "vertical",
         contents: [
-          this._createOrderNumberSection(orderData.orderNumber),
+          this._createSeparator(),
+          this._createSenderInfoSection(orderData),
           this._createSeparator(),
           this._createRecipientInfoSection(orderData),
           this._createSeparator(),
@@ -44,7 +40,7 @@ export class LineMessageService {
         contents: [
           {
             type: "text",
-            text: "🍐 感謝您的訂購！我們會盡快為您處理訂單。",
+            text: "感謝您的訂購！我們會盡快為您處理訂單。",
             size: "sm",
             color: "#666666",
             align: "center",
@@ -70,6 +66,10 @@ export class LineMessageService {
     return `🍐 妙媽媽果園訂單確認
 
 訂單編號：${orderData.orderNumber}
+
+寄件人：${orderData.senderName} (${orderData.senderPhone})
+寄件地址：${orderData.senderAddress}
+
 收件人：${orderData.receiverName} (${orderData.receiverPhone})
 收件地址：${orderData.receiverAddress}
 
@@ -98,6 +98,45 @@ ${cart.map(item => `• ${item.grade} x ${item.cartQuantity}盒 - NT$${(item.pri
     return {
       type: "separator",
       margin: "md"
+    };
+  }
+
+  static _createSenderInfoSection(orderData) {
+    return {
+      type: "box",
+      layout: "vertical",
+      margin: "md",
+      contents: [
+        {
+          type: "text",
+          text: "寄件資訊",
+          weight: "bold",
+          size: "sm",
+          color: "#FF6B35"
+        },
+        {
+          type: "text",
+          text: `姓名：${orderData.senderName}`,
+          size: "sm",
+          color: "#555555",
+          margin: "xs"
+        },
+        {
+          type: "text",
+          text: `電話：${orderData.senderPhone}`,
+          size: "sm",
+          color: "#555555",
+          margin: "xs"
+        },
+        {
+          type: "text",
+          text: `地址：${orderData.senderAddress}`,
+          size: "sm",
+          color: "#555555",
+          margin: "xs",
+          wrap: true
+        }
+      ]
     };
   }
 
