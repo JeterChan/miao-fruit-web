@@ -6,7 +6,7 @@ import Cart from './components/cart/Cart';
 import OrderSuccess from './components/order/OrderSuccess';
 import { api } from './services/api';
 import useCart from './hooks/useCart';
-import { initializeLiff, sendTextMessage } from './utils/liff';
+import { initializeLiff, sendTextMessage, sendFlexMessage } from './utils/liff';
 
 const App = () => {
   const [products, setProducts] = useState({ singleLayer: [], doubleLayer: [] });
@@ -136,19 +136,215 @@ const App = () => {
 
         // Send order confirmation message via LINE
         if (liffInitialized && userProfile) {
-          const orderMessage = `🍐 妙媽媽果園訂單確認
+          try {
+            // Calculate total items and price
+            const totalItems = cart.reduce((sum, item) => sum + item.cartQuantity, 0);
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.cartQuantity), 0);
+            
+            // Create Flex Message for better presentation
+            const flexMessage = {
+              type: "bubble",
+              header: {
+                type: "box",
+                layout: "vertical",
+                contents: [
+                  {
+                    type: "text",
+                    text: "妙媽媽果園",
+                    weight: "bold",
+                    size: "xl",
+                    color: "#FF6B35"
+                  },
+                  {
+                    type: "text",
+                    text: "訂單確認通知",
+                    size: "md",
+                    color: "#666666"
+                  }
+                ],
+                backgroundColor: "#FFF8F0",
+                paddingAll: "20px"
+              },
+              body: {
+                type: "box",
+                layout: "vertical",
+                contents: [
+                  {
+                    type: "text",
+                    text: `訂單編號：${result.data.orderNumber}`,
+                    weight: "bold",
+                    size: "md",
+                    color: "#333333",
+                    margin: "md"
+                  },
+                  {
+                    type: "separator",
+                    margin: "md"
+                  },
+                  {
+                    type: "box",
+                    layout: "vertical",
+                    margin: "md",
+                    contents: [
+                      {
+                        type: "text",
+                        text: "收件資訊",
+                        weight: "bold",
+                        size: "sm",
+                        color: "#FF6B35"
+                      },
+                      {
+                        type: "text",
+                        text: `姓名：${orderData.receiverName}`,
+                        size: "sm",
+                        color: "#555555",
+                        margin: "xs"
+                      },
+                      {
+                        type: "text",
+                        text: `電話：${orderData.receiverPhone}`,
+                        size: "sm",
+                        color: "#555555",
+                        margin: "xs"
+                      },
+                      {
+                        type: "text",
+                        text: `地址：${orderData.receiverAddress}`,
+                        size: "sm",
+                        color: "#555555",
+                        margin: "xs",
+                        wrap: true
+                      }
+                    ]
+                  },
+                  {
+                    type: "separator",
+                    margin: "md"
+                  },
+                  {
+                    type: "box",
+                    layout: "vertical",
+                    margin: "md",
+                    contents: [
+                      {
+                        type: "text",
+                        text: "訂購商品",
+                        weight: "bold",
+                        size: "sm",
+                        color: "#FF6B35"
+                      },
+                      ...cart.map(item => ({
+                        type: "box",
+                        layout: "horizontal",
+                        contents: [
+                          {
+                            type: "text",
+                            text: item.grade,
+                            size: "sm",
+                            color: "#555555",
+                            flex: 3
+                          },
+                          {
+                            type: "text",
+                            text: `${item.cartQuantity}盒`,
+                            size: "sm",
+                            color: "#555555",
+                            align: "end",
+                            flex: 1
+                          },
+                          {
+                            type: "text",
+                            text: `NT$${(item.price * item.cartQuantity).toLocaleString()}`,
+                            size: "sm",
+                            color: "#333333",
+                            align: "end",
+                            weight: "bold",
+                            flex: 2
+                          }
+                        ],
+                        margin: "xs"
+                      })),
+                      {
+                        type: "separator",
+                        margin: "md"
+                      },
+                      {
+                        type: "box",
+                        layout: "horizontal",
+                        contents: [
+                          {
+                            type: "text",
+                            text: `共 ${totalItems} 盒`,
+                            size: "md",
+                            color: "#333333",
+                            weight: "bold"
+                          },
+                          {
+                            type: "text",
+                            text: `NT$${totalPrice.toLocaleString()}`,
+                            size: "md",
+                            color: "#FF6B35",
+                            align: "end",
+                            weight: "bold"
+                          }
+                        ],
+                        margin: "md"
+                      }
+                    ]
+                  }
+                ]
+              },
+              footer: {
+                type: "box",
+                layout: "vertical",
+                contents: [
+                  {
+                    type: "text",
+                    text: "🍐 感謝您的訂購！我們會盡快為您處理訂單。",
+                    size: "sm",
+                    color: "#666666",
+                    align: "center",
+                    wrap: true
+                  },
+                  {
+                    type: "text",
+                    text: "如有問題請聯絡：0910-567118",
+                    size: "xs",
+                    color: "#999999",
+                    align: "center",
+                    margin: "sm"
+                  }
+                ],
+                backgroundColor: "#FFF8F0",
+                paddingAll: "12px"
+              }
+            };
+
+            // Send Flex Message
+            const messageResult = await sendFlexMessage("訂單確認通知", flexMessage);
+            
+            if (!messageResult.success) {
+              console.error('Flex message failed, sending text message instead');
+              // Fallback to text message if Flex message fails
+              const textMessage = `🍐 妙媽媽果園訂單確認
 
 訂單編號：${result.data.orderNumber}
-收件人：${orderData.receiverName}
-聯絡電話：${orderData.receiverPhone}
+收件人：${orderData.receiverName} (${orderData.receiverPhone})
 收件地址：${orderData.receiverAddress}
 
 訂購商品：
-${cart.map(item => `• ${item.grade} x ${item.cartQuantity}盒`).join('\n')}
+${cart.map(item => `• ${item.grade} x ${item.cartQuantity}盒 - NT$${(item.price * item.cartQuantity).toLocaleString()}`).join('\n')}
 
-感謝您的訂購！我們會盡快為您處理訂單。`;
-          
-          await sendTextMessage(orderMessage);
+總計：${totalItems}盒 - NT$${totalPrice.toLocaleString()}
+
+感謝您的訂購！我們會盡快為您處理訂單。
+如有問題請聯絡：0910-567118`;
+              
+              await sendTextMessage(textMessage);
+            }
+          } catch (error) {
+            console.error('Failed to send order confirmation message:', error);
+          }
         }
       }
     } catch (error) {

@@ -167,10 +167,25 @@ const HeaderNavigation = ({ activeTab, setActiveTab, cartCount, productTab, setP
               </button>
             </nav>
 
-            {/* 聯絡資訊 */}
-            <div className="flex items-center gap-2 text-gray-700 border-l border-orange-300 pl-6">
-              <Phone size={16} />
-              <span className="text-sm font-medium">0910-567118</span>
+            {/* 用戶資訊和聯絡資訊 */}
+            <div className="flex items-center gap-4">
+              {/* 用戶資訊 */}
+              {userProfile && (
+                <div className="flex items-center gap-2 text-gray-700 border-r border-orange-300 pr-4">
+                  <img 
+                    src={userProfile.pictureUrl} 
+                    alt={userProfile.displayName}
+                    className="w-8 h-8 rounded-full border-2 border-orange-200"
+                  />
+                  <span className="text-sm font-medium">{userProfile.displayName}</span>
+                </div>
+              )}
+              
+              {/* 聯絡資訊 */}
+              <div className="flex items-center gap-2 text-gray-700">
+                <Phone size={16} />
+                <span className="text-sm font-medium">0910-567118</span>
+              </div>
             </div>
           </div>
         </div>
@@ -247,9 +262,24 @@ const HeaderNavigation = ({ activeTab, setActiveTab, cartCount, productTab, setP
               </button>
             </nav>
 
-            <div className="flex items-center gap-1 text-gray-700">
-              <Phone size={14} />
-              <span className="text-xs font-medium">0910-567118</span>
+            <div className="flex items-center gap-2">
+              {/* 用戶資訊 */}
+              {userProfile && (
+                <div className="flex items-center gap-1 text-gray-700 border-r border-orange-300 pr-2">
+                  <img 
+                    src={userProfile.pictureUrl} 
+                    alt={userProfile.displayName}
+                    className="w-6 h-6 rounded-full border border-orange-200"
+                  />
+                  <span className="text-xs font-medium truncate max-w-16">{userProfile.displayName}</span>
+                </div>
+              )}
+              
+              {/* 聯絡資訊 */}
+              <div className="flex items-center gap-1 text-gray-700">
+                <Phone size={14} />
+                <span className="text-xs font-medium">0910-567118</span>
+              </div>
             </div>
           </div>
         </div>
@@ -280,8 +310,19 @@ const HeaderNavigation = ({ activeTab, setActiveTab, cartCount, productTab, setP
             </div>
           </div>
 
-          {/* 右側：購物車計數 + 漢堡選單 */}
-          <div className="flex items-center gap-3">
+          {/* 右側：用戶資訊 + 購物車計數 + 漢堡選單 */}
+          <div className="flex items-center gap-2">
+            {/* 用戶資訊 */}
+            {userProfile && (
+              <div className="flex items-center gap-1">
+                <img 
+                  src={userProfile.pictureUrl} 
+                  alt={userProfile.displayName}
+                  className="w-7 h-7 rounded-full border border-orange-200"
+                />
+              </div>
+            )}
+            
             {/* 購物車計數顯示 */}
             {cartCount > 0 && (
               <div className="flex items-center gap-1 bg-red-500 text-white px-2 py-1 rounded-full">
@@ -347,8 +388,24 @@ const HeaderNavigation = ({ activeTab, setActiveTab, cartCount, productTab, setP
               </button>
             </nav>
 
-            {/* 手機版聯絡資訊 */}
+            {/* 手機版用戶和聯絡資訊 */}
             <div className="border-t border-gray-200 px-4 py-3 bg-gray-50">
+              {/* 用戶資訊 */}
+              {userProfile && (
+                <div className="flex items-center gap-3 mb-3 pb-3 border-b border-gray-300">
+                  <img 
+                    src={userProfile.pictureUrl} 
+                    alt={userProfile.displayName}
+                    className="w-10 h-10 rounded-full border-2 border-orange-200"
+                  />
+                  <div>
+                    <div className="text-sm font-medium text-gray-800">{userProfile.displayName}</div>
+                    <div className="text-xs text-gray-500">LINE 用戶</div>
+                  </div>
+                </div>
+              )}
+              
+              {/* 聯絡資訊 */}
               <div className="flex items-center gap-2 text-gray-700">
                 <Phone size={16} />
                 <span className="text-sm font-medium">訂購專線：0910-567118</span>
