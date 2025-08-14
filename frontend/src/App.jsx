@@ -6,6 +6,7 @@ import Cart from './components/cart/Cart';
 import OrderSuccess from './components/order/OrderSuccess';
 import { api } from './services/api';
 import useCart from './hooks/useCart';
+import { initializeLiff, sendTextMessage } from './utils/liff';
 
 const App = () => {
   const [products, setProducts] = useState({ singleLayer: [], doubleLayer: [] });
@@ -71,6 +72,8 @@ const App = () => {
   const [productTab, setProductTab] = useState('single'); // 新增產品類別狀態
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderSuccess, setOrderSuccess] = useState(null);
+  const [liffInitialized, setLiffInitialized] = useState(false);
+  const [userProfile, setUserProfile] = useState(null);
   
   const {
     cart,
@@ -81,16 +84,28 @@ const App = () => {
   } = useCart();
 
   useEffect(() => {
-    const loadData = async () => {
+    const initializeApp = async () => {
       try {
+        const liffResult = await initializeLiff();
+        
+        if (liffResult.success) {
+          setLiffInitialized(true);
+          if (liffResult.isLoggedIn && liffResult.profile) {
+            setUserProfile(liffResult.profile);
+            console.log('User profile:', liffResult.profile);
+          }
+        } else {
+          console.error('LIFF initialization failed:', liffResult.error);
+        }
+
         const productsData = await api.getProducts();
         setProducts(productsData);
       } catch (error) {
-        console.error('載入產品數據失敗:', error);
+        console.error('載入數據失敗:', error);
       }
     };
 
-    loadData();
+    initializeApp();
   }, []);
 
   const submitOrder = async (orderData) => {
@@ -118,6 +133,23 @@ const App = () => {
         setOrderSuccess(successData);
         clearCart();
         setActiveTab('order-success');
+
+        // Send order confirmation message via LINE
+        if (liffInitialized && userProfile) {
+          const orderMessage = `🍐 妙媽媽果園訂單確認
+
+訂單編號：${result.data.orderNumber}
+收件人：${orderData.receiverName}
+聯絡電話：${orderData.receiverPhone}
+收件地址：${orderData.receiverAddress}
+
+訂購商品：
+${cart.map(item => `• ${item.grade} x ${item.cartQuantity}盒`).join('\n')}
+
+感謝您的訂購！我們會盡快為您處理訂單。`;
+          
+          await sendTextMessage(orderMessage);
+        }
       }
     } catch (error) {
       console.log(error);
@@ -142,6 +174,8 @@ const App = () => {
         cartCount={cart.reduce((sum, item) => sum + item.cartQuantity, 0)}
         productTab={productTab}
         setProductTab={setProductTab}
+        userProfile={userProfile}
+        liffInitialized={liffInitialized}
       />
       
       <main className="flex-1 container mx-auto px-4 py-8">

@@ -1,8 +1,18 @@
 import React, { useState } from 'react';
-import { ShoppingCart, Package, Phone, Menu, X } from 'lucide-react';
+import { ShoppingCart, Package, Phone, Menu, X, LogIn, LogOut, Send } from 'lucide-react';
+import { loginWithLiff, logoutFromLiff, sendTextMessage } from '../../utils/liff';
 
-const HeaderNavigation = ({ activeTab, setActiveTab, cartCount, productTab, setProductTab }) => {
+const HeaderNavigation = ({ activeTab, setActiveTab, cartCount, productTab, setProductTab, userProfile, liffInitialized }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const handleSendTestMessage = async () => {
+    const result = await sendTextMessage('測試訊息：這是來自妙媽媽果園的測試訊息！🍐');
+    if (result.success) {
+      alert('訊息發送成功！');
+    } else {
+      alert(`訊息發送失敗：${result.error}`);
+    }
+  };
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -21,6 +31,68 @@ const HeaderNavigation = ({ activeTab, setActiveTab, cartCount, productTab, setP
 
   return (
     <header className="bg-gradient-to-r from-orange-300 to-yellow-200 shadow-lg sticky top-0 z-50">
+      {/* Development mode user display */}
+      {process.env.NODE_ENV === 'development' && (
+        <div className="bg-blue-100 border-b border-blue-300 px-4 py-2">
+          <div className="container mx-auto">
+            <div className="flex items-center justify-between text-sm">
+              <div className="flex items-center gap-4">
+                <span className="font-medium text-blue-800">開發模式 - LIFF 狀態:</span>
+                <span className={`px-2 py-1 rounded ${liffInitialized ? 'bg-green-200 text-green-800' : 'bg-red-200 text-red-800'}`}>
+                  {liffInitialized ? '✓ 已初始化' : '✗ 未初始化'}
+                </span>
+                {userProfile && (
+                  <div className="flex items-center gap-2">
+                    <img 
+                      src={userProfile.pictureUrl} 
+                      alt={userProfile.displayName}
+                      className="w-6 h-6 rounded-full"
+                    />
+                    <span className="text-blue-700">
+                      {userProfile.displayName} ({userProfile.userId})
+                    </span>
+                  </div>
+                )}
+                {liffInitialized && !userProfile && (
+                  <span className="text-orange-600">未登入</span>
+                )}
+              </div>
+              <div className="flex items-center gap-2">
+                {liffInitialized && (
+                  <>
+                    {userProfile ? (
+                      <button
+                        onClick={logoutFromLiff}
+                        className="flex items-center gap-1 px-3 py-1 bg-red-200 text-red-800 rounded hover:bg-red-300 transition-colors"
+                      >
+                        <LogOut className="w-4 h-4" />
+                        登出
+                      </button>
+                    ) : (
+                      <button
+                        onClick={loginWithLiff}
+                        className="flex items-center gap-1 px-3 py-1 bg-green-200 text-green-800 rounded hover:bg-green-300 transition-colors"
+                      >
+                        <LogIn className="w-4 h-4" />
+                        登入
+                      </button>
+                    )}
+                    {userProfile && (
+                      <button
+                        onClick={handleSendTestMessage}
+                        className="flex items-center gap-1 px-3 py-1 bg-blue-200 text-blue-800 rounded hover:bg-blue-300 transition-colors"
+                      >
+                        <Send className="w-4 h-4" />
+                        測試發送
+                      </button>
+                    )}
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="container mx-auto px-4 py-4">
         {/* 桌面版 - 完整佈局 */}
         <div className="hidden md:flex items-center justify-between">
