@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { User, MapPin, RotateCcw, Info } from 'lucide-react';
+import { User, MapPin, Info } from 'lucide-react';
 
 const OrderForm = ({ cart, onSubmitOrder, isSubmitting }) => {
   const [formData, setFormData] = useState({
@@ -79,22 +79,6 @@ const OrderForm = ({ cart, onSubmitOrder, isSubmitting }) => {
     }
   };
 
-  // Clear saved form data
-  const clearSavedData = () => {
-    localStorage.removeItem('orderFormData');
-    localStorage.removeItem('orderFormSameAsSender');
-    setFormData({
-      senderName: '',
-      senderPhone: '',
-      senderAddress: '',
-      receiverName: '',
-      receiverPhone: '',
-      receiverAddress: '',
-      notes: ''
-    });
-    setSameAsSender(false);
-    setHasLoadedSavedData(false);
-  };
 
   const handleSubmit = () => {
     if (!formData.senderName || !formData.senderPhone || !formData.receiverName || !formData.receiverPhone) {
@@ -283,27 +267,14 @@ const OrderForm = ({ cart, onSubmitOrder, isSubmitting }) => {
         className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-transparent h-20"
       />
 
-      {/* 按鈕區域 */}
-      <div className="flex flex-col sm:flex-row gap-4">
-        {/* 清除資料按鈕 */}
-        <button
-          type="button"
-          onClick={clearSavedData}
-          className="flex items-center justify-center gap-2 bg-gray-500 hover:bg-gray-600 text-white py-3 px-6 rounded-lg font-medium transition-all shadow-md sm:w-auto"
-        >
-          <RotateCcw className="w-4 h-4" />
-          清除資料
-        </button>
-        
-        {/* 提交按鈕 */}
-        <button
-          onClick={handleSubmit}
-          disabled={isSubmitting}
-          className="flex-1 bg-gradient-to-r from-green-500 to-green-600 text-white py-4 rounded-lg text-lg font-semibold hover:from-green-600 hover:to-green-700 transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {isSubmitting ? '提交中...' : '提交訂單'}
-        </button>
-      </div>
+      {/* 提交按鈕 */}
+      <button
+        onClick={handleSubmit}
+        disabled={isSubmitting}
+        className="w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-4 rounded-lg text-lg font-semibold hover:from-green-600 hover:to-green-700 transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        {isSubmitting ? '提交中...' : '提交訂單'}
+      </button>
     </div>
   );
 };

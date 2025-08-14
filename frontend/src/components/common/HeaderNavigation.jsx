@@ -172,7 +172,7 @@ const HeaderNavigation = ({ activeTab, setActiveTab, cartCount, productTab, setP
                 <ShoppingCart className="w-4 h-4" />
                 購物車
                 {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center animate-pulse">
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                     {cartCount}
                   </span>
                 )}
@@ -267,7 +267,7 @@ const HeaderNavigation = ({ activeTab, setActiveTab, cartCount, productTab, setP
                 <ShoppingCart className="w-4 h-4" />
                 <span className="text-sm">購物車</span>
                 {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center animate-pulse">
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
                     {cartCount}
                   </span>
                 )}
@@ -339,7 +339,7 @@ const HeaderNavigation = ({ activeTab, setActiveTab, cartCount, productTab, setP
             {cartCount > 0 && (
               <button
                 onClick={() => setActiveTab('cart')}
-                className="flex items-center gap-1 bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded-full transition-colors cursor-pointer animate-pulse hover:animate-none cart-bounce"
+                className="flex items-center gap-1 bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded-full transition-colors cursor-pointer"
                 aria-label={`購物車有 ${cartCount} 個商品，點擊查看`}
                 title="點擊查看購物車"
               >
@@ -398,7 +398,7 @@ const HeaderNavigation = ({ activeTab, setActiveTab, cartCount, productTab, setP
                 <ShoppingCart className="w-5 h-5" />
                 購物車
                 {cartCount > 0 && (
-                  <span className="ml-auto bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center animate-pulse">
+                  <span className="ml-auto bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center">
                     {cartCount}
                   </span>
                 )}

@@ -82,19 +82,3 @@ code {
   transition: transform 0.3s ease;
 }
 
-/* 購物車計數按鈕 bounce 效果 */
-@keyframes cartBounce {
-  0%, 20%, 50%, 80%, 100% {
-    transform: translateY(0);
-  }
-  40% {
-    transform: translateY(-3px);
-  }
-  60% {
-    transform: translateY(-1px);
-  }
-}
-
-.cart-bounce:hover {
-  animation: cartBounce 0.6s ease-in-out;
-}
