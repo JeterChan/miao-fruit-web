@@ -137,12 +137,24 @@ const App = () => {
         clearCart();
         setActiveTab('order-success');
 
+        // Smooth scroll to top after order success
+        setTimeout(() => {
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+        }, 100);
+
         // Send order confirmation message via LINE
         if (liffInitialized && userProfile) {
           try {
             // Calculate total items and price
             const totalItems = cart.reduce((sum, item) => sum + item.cartQuantity, 0);
             const totalPrice = successData.totalAmount;
+            
+            // Calculate shipping fee (same logic as in OrderForm)
+            const subtotalAmount = cart.reduce((sum, item) => sum + (item.price * item.cartQuantity), 0);
+            const shippingFee = subtotalAmount >= 1000 ? 0 : 100;
             
             // Create order data for message
             const messageOrderData = {
@@ -160,7 +172,8 @@ const App = () => {
               messageOrderData, 
               cart, 
               totalItems, 
-              totalPrice
+              totalPrice,
+              shippingFee
             );
 
             // Send order confirmation message to user via Messaging API
@@ -174,7 +187,8 @@ const App = () => {
                 messageOrderData, 
                 cart, 
                 totalItems, 
-                totalPrice
+                totalPrice,
+                shippingFee
               );
               
               await api.sendTextMessage(userProfile.userId, textMessage);

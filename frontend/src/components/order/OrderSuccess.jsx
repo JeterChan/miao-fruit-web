@@ -1,4 +1,5 @@
-import { CheckCircle, Package, Phone, ArrowLeft, User, MapPin } from 'lucide-react';
+import { CheckCircle, Package, Phone, ArrowLeft, User, MapPin, ArrowUp } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 const OrderSuccess = ({ orderData, onBackToProducts }) => {
   const formatPrice = (price) => {
@@ -10,9 +11,28 @@ const OrderSuccess = ({ orderData, onBackToProducts }) => {
   };
 
   const totalAmount = orderData.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const [showFloatingButton, setShowFloatingButton] = useState(false);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
+  // Show/hide floating scroll button based on scroll position
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      setShowFloatingButton(scrollTop > 300);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-2xl mx-auto animate-slideInFromBottom">
       {/* 成功標題 */}
       <div className="text-center mb-8">
         <div className="flex justify-center mb-4">
@@ -138,8 +158,15 @@ const OrderSuccess = ({ orderData, onBackToProducts }) => {
         </p>
       </div>
 
-      {/* 返回按鈕 */}
-      <div className="text-center">
+      {/* 動作按鈕 */}
+      <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <button
+          onClick={scrollToTop}
+          className="inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 px-6 rounded-lg transition-colors"
+        >
+          <ArrowUp className="w-4 h-4" />
+          回到頂部
+        </button>
         <button
           onClick={onBackToProducts}
           className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 px-6 rounded-lg transition-colors"
@@ -148,6 +175,17 @@ const OrderSuccess = ({ orderData, onBackToProducts }) => {
           繼續選購
         </button>
       </div>
+
+      {/* 浮動回到頂部按鈕 */}
+      {showFloatingButton && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-6 right-6 bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 z-50 animate-slideInFromBottom"
+          aria-label="回到頂部"
+        >
+          <ArrowUp className="w-5 h-5" />
+        </button>
+      )}
     </div>
   );
 };

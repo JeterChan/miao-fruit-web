@@ -3,7 +3,7 @@
 export class LineMessageService {
   
   // Create order confirmation Flex Message
-  static createOrderConfirmationMessage(orderData, cart, totalItems, totalPrice) {
+  static createOrderConfirmationMessage(orderData, cart, totalItems, totalPrice, shippingFee = null) {
     return {
       type: "bubble",
       header: {
@@ -16,6 +16,11 @@ export class LineMessageService {
             weight: "bold",
             size: "xl",
             color: "#FF6B35"
+          },
+          {
+            type: "text",
+            text: "訂單確認通知",
+            
           },
           this._createOrderNumberSection(orderData.orderNumber),
         ],
@@ -31,7 +36,7 @@ export class LineMessageService {
           this._createSeparator(),
           this._createRecipientInfoSection(orderData),
           this._createSeparator(),
-          this._createOrderItemsSection(cart, totalItems, totalPrice)
+          this._createOrderItemsSection(cart, totalItems, totalPrice, shippingFee)
         ]
       },
       footer: {
@@ -62,7 +67,7 @@ export class LineMessageService {
   }
 
   // Create simple text order confirmation
-  static createOrderConfirmationText(orderData, cart, totalItems, totalPrice) {
+  static createOrderConfirmationText(orderData, cart, totalItems, totalPrice, shippingFee = null) {
     return `🍐 妙媽媽果園訂單確認
 
 訂單編號：${orderData.orderNumber}
@@ -76,6 +81,8 @@ export class LineMessageService {
 訂購商品：
 ${cart.map(item => `• ${item.grade} x ${item.cartQuantity}盒 - NT$${(item.price * item.cartQuantity).toLocaleString()}`).join('\n')}
 
+小計：NT$${(totalPrice - (shippingFee || 0)).toLocaleString()}${shippingFee !== null ? `
+運費：${shippingFee === 0 ? '免運費' : `NT$${shippingFee.toLocaleString()}`}` : ''}
 總計：${totalItems}盒 - NT$${totalPrice.toLocaleString()}
 
 感謝您的訂購！我們會盡快為您處理訂單。
@@ -179,23 +186,35 @@ ${cart.map(item => `• ${item.grade} x ${item.cartQuantity}盒 - NT$${(item.pri
     };
   }
 
-  static _createOrderItemsSection(cart, totalItems, totalPrice) {
+  static _createOrderItemsSection(cart, totalItems, totalPrice, shippingFee = null) {
+    const subtotal = shippingFee !== null ? totalPrice - shippingFee : totalPrice;
+    
+    const contents = [
+      {
+        type: "text",
+        text: "訂購商品",
+        weight: "bold",
+        size: "sm",
+        color: "#FF6B35"
+      },
+      ...cart.map(item => this._createOrderItemRow(item)),
+      this._createSeparator()
+    ];
+
+    // Add subtotal if shipping fee is available
+    if (shippingFee !== null) {
+      contents.push(this._createSubtotalRow(subtotal));
+      contents.push(this._createShippingRow(shippingFee));
+      contents.push(this._createSeparator());
+    }
+
+    contents.push(this._createTotalRow(totalItems, totalPrice));
+
     return {
       type: "box",
       layout: "vertical",
       margin: "md",
-      contents: [
-        {
-          type: "text",
-          text: "訂購商品",
-          weight: "bold",
-          size: "sm",
-          color: "#FF6B35"
-        },
-        ...cart.map(item => this._createOrderItemRow(item)),
-        this._createSeparator(),
-        this._createTotalRow(totalItems, totalPrice)
-      ]
+      contents: contents
     };
   }
 
@@ -227,6 +246,54 @@ ${cart.map(item => `• ${item.grade} x ${item.cartQuantity}盒 - NT$${(item.pri
           align: "end",
           weight: "bold",
           flex: 2
+        }
+      ],
+      margin: "xs"
+    };
+  }
+
+  static _createSubtotalRow(subtotal) {
+    return {
+      type: "box",
+      layout: "horizontal",
+      contents: [
+        {
+          type: "text",
+          text: "商品小計",
+          size: "sm",
+          color: "#555555"
+        },
+        {
+          type: "text",
+          text: `NT$${subtotal.toLocaleString()}`,
+          size: "sm",
+          color: "#333333",
+          align: "end",
+          weight: "bold"
+        }
+      ],
+      margin: "xs"
+    };
+  }
+
+  static _createShippingRow(shippingFee) {
+    return {
+      type: "box",
+      layout: "horizontal",
+      contents: [
+        {
+          type: "text",
+          text: "運費",
+          size: "sm",
+          color: "#555555"
+        },
+        {
+          type: "text",
+          text: shippingFee === 0 ? "免運費" : `NT$${shippingFee.toLocaleString()}`,
+          size: "sm",
+          color: shippingFee === 0 ? "#4CAF50" : "#333333",
+          align: "end",
+          weight: "bold"
         }
       ],
       margin: "xs"
