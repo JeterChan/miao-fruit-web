@@ -6,7 +6,7 @@ import Cart from './components/cart/Cart';
 import OrderSuccess from './components/order/OrderSuccess';
 import { api } from './services/api';
 import useCart from './hooks/useCart';
-import { initializeLiff, sendTextMessage, sendFlexMessage } from './utils/liff';
+import { initializeLiff, sendFlexMessage } from './utils/liff';
 
 const App = () => {
   const [products, setProducts] = useState({ singleLayer: [], doubleLayer: [] });
@@ -320,11 +320,14 @@ const App = () => {
               }
             };
 
-            // Send Flex Message
-            const messageResult = await sendFlexMessage("訂單確認通知", flexMessage);
+            // Send order confirmation message to user via Messaging API
+            const messageResult = await sendFlexMessage(userProfile.userId, "訂單確認通知", flexMessage);
             
             if (!messageResult.success) {
-              console.error('Flex message failed, sending text message instead');
+              console.error('Flex message failed, trying text message instead');
+              // Import sendTextMessage locally to avoid circular dependency
+              const { sendTextMessage } = await import('./utils/liff');
+              
               // Fallback to text message if Flex message fails
               const textMessage = `🍐 妙媽媽果園訂單確認
 
@@ -340,7 +343,7 @@ ${cart.map(item => `• ${item.grade} x ${item.cartQuantity}盒 - NT$${(item.pri
 感謝您的訂購！我們會盡快為您處理訂單。
 如有問題請聯絡：0910-567118`;
               
-              await sendTextMessage(textMessage);
+              await sendTextMessage(userProfile.userId, textMessage);
             }
           } catch (error) {
             console.error('Failed to send order confirmation message:', error);

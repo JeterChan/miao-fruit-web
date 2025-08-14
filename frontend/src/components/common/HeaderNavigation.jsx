@@ -6,7 +6,12 @@ const HeaderNavigation = ({ activeTab, setActiveTab, cartCount, productTab, setP
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleSendTestMessage = async () => {
-    const result = await sendTextMessage('測試訊息：這是來自妙媽媽果園的測試訊息！🍐');
+    if (!userProfile?.userId) {
+      alert('無法取得用戶ID');
+      return;
+    }
+    
+    const result = await sendTextMessage(userProfile.userId, '測試訊息：這是來自妙媽媽果園的測試訊息！🍐');
     if (result.success) {
       alert('訊息發送成功！');
     } else {

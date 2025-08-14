@@ -50,10 +50,12 @@ app.use(session({
 // 引入路由
 const productRoutes = require('./routes/productRoutes');
 const orderRoutes = require('./routes/orderRoutes');
+const lineRoutes = require('./routes/line');
 
 // 使用路由
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
+app.use('/api/line', lineRoutes);
 
 // 健康檢查端點
 app.get('/api/health', (req, res) => {

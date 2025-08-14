@@ -43,37 +43,32 @@ export const logoutFromLiff = () => {
   }
 };
 
-export const sendMessage = async (message) => {
+// Send message to specific user via backend API using LINE Messaging API
+export const sendMessageToUser = async (userId, message) => {
   try {
-    if (!liff.isLoggedIn()) {
-      throw new Error('User is not logged in');
-    }
+    const response = await fetch('/api/line/send-message', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId: userId,
+        message: message
+      })
+    });
 
-    if (!liff.isApiAvailable('sendMessages')) {
-      throw new Error('sendMessages API is not available');
-    }
-
-    let messageObject;
-
-    if (typeof message === 'string') {
-      messageObject = {
-        type: 'text',
-        text: message
-      };
-    } else if (typeof message === 'object' && message.type) {
-      messageObject = message;
-    } else {
-      throw new Error('Invalid message format');
-    }
-
-    await liff.sendMessages([messageObject]);
+    const result = await response.json();
     
+    if (!response.ok) {
+      throw new Error(result.error || 'Failed to send message');
+    }
+
     return {
       success: true,
-      message: 'Message sent successfully'
+      message: 'Message sent to user successfully'
     };
   } catch (error) {
-    console.error('Failed to send message:', error);
+    console.error('Failed to send message to user:', error);
     return {
       success: false,
       error: error.message
@@ -81,31 +76,31 @@ export const sendMessage = async (message) => {
   }
 };
 
-export const sendTextMessage = async (text) => {
-  return await sendMessage({
+export const sendTextMessage = async (userId, text) => {
+  return await sendMessageToUser(userId, {
     type: 'text',
     text: text
   });
 };
 
-export const sendFlexMessage = async (altText, contents) => {
-  return await sendMessage({
+export const sendFlexMessage = async (userId, altText, contents) => {
+  return await sendMessageToUser(userId, {
     type: 'flex',
     altText: altText,
     contents: contents
   });
 };
 
-export const sendImageMessage = async (originalContentUrl, previewImageUrl) => {
-  return await sendMessage({
+export const sendImageMessage = async (userId, originalContentUrl, previewImageUrl) => {
+  return await sendMessageToUser(userId, {
     type: 'image',
     originalContentUrl: originalContentUrl,
     previewImageUrl: previewImageUrl || originalContentUrl
   });
 };
 
-export const sendLocationMessage = async (title, address, latitude, longitude) => {
-  return await sendMessage({
+export const sendLocationMessage = async (userId, title, address, latitude, longitude) => {
+  return await sendMessageToUser(userId, {
     type: 'location',
     title: title,
     address: address,

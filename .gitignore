@@ -38,3 +38,4 @@ backend/test
 backend/jest.config.js
 
 products_data.json
+backend-api-example.md
