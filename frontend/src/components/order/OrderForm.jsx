@@ -11,6 +11,38 @@ const OrderForm = ({ cart, onSubmitOrder, isSubmitting }) => {
     receiverAddress: '',
     notes: ''
   });
+  
+  const [sameAsSender, setSameAsSender] = useState(false);
+
+  // Handle checkbox change to copy sender info to receiver
+  const handleSameAsSenderChange = (checked) => {
+    setSameAsSender(checked);
+    if (checked) {
+      setFormData(prev => ({
+        ...prev,
+        receiverName: prev.senderName,
+        receiverPhone: prev.senderPhone,
+        receiverAddress: prev.senderAddress
+      }));
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        receiverName: '',
+        receiverPhone: '',
+        receiverAddress: ''
+      }));
+    }
+  };
+
+  // Handle form field changes and update checkbox if needed
+  const handleFieldChange = (field, value) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+    
+    // If user manually changes receiver info, uncheck the checkbox
+    if (field.startsWith('receiver') && sameAsSender) {
+      setSameAsSender(false);
+    }
+  };
 
   const handleSubmit = () => {
     if (!formData.senderName || !formData.senderPhone || !formData.receiverName || !formData.receiverPhone) {
@@ -36,7 +68,14 @@ const OrderForm = ({ cart, onSubmitOrder, isSubmitting }) => {
             type="text"
             placeholder="訂購人姓名"
             value={formData.senderName}
-            onChange={(e) => setFormData({...formData, senderName: e.target.value})}
+            onChange={(e) => {
+              const newValue = e.target.value;
+              handleFieldChange('senderName', newValue);
+              // If checkbox is checked, also update receiver info
+              if (sameAsSender) {
+                setFormData(prev => ({ ...prev, senderName: newValue, receiverName: newValue }));
+              }
+            }}
             className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-transparent"
             required
           />
@@ -44,14 +83,28 @@ const OrderForm = ({ cart, onSubmitOrder, isSubmitting }) => {
             type="tel"
             placeholder="聯絡電話"
             value={formData.senderPhone}
-            onChange={(e) => setFormData({...formData, senderPhone: e.target.value})}
+            onChange={(e) => {
+              const newValue = e.target.value;
+              handleFieldChange('senderPhone', newValue);
+              // If checkbox is checked, also update receiver info
+              if (sameAsSender) {
+                setFormData(prev => ({ ...prev, senderPhone: newValue, receiverPhone: newValue }));
+              }
+            }}
             className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-transparent"
             required
           />
           <textarea
             placeholder="訂購人地址"
             value={formData.senderAddress}
-            onChange={(e) => setFormData({...formData, senderAddress: e.target.value})}
+            onChange={(e) => {
+              const newValue = e.target.value;
+              handleFieldChange('senderAddress', newValue);
+              // If checkbox is checked, also update receiver info
+              if (sameAsSender) {
+                setFormData(prev => ({ ...prev, senderAddress: newValue, receiverAddress: newValue }));
+              }
+            }}
             className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-transparent h-24"
             required
           />
@@ -59,31 +112,51 @@ const OrderForm = ({ cart, onSubmitOrder, isSubmitting }) => {
 
         {/* 收件人資訊 */}
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
-            <MapPin size={20} />
-            收件人資訊
-          </h3>
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
+              <MapPin size={20} />
+              收件人資訊
+            </h3>
+            <label className="flex items-center gap-2 text-sm text-gray-600">
+              <input
+                type="checkbox"
+                checked={sameAsSender}
+                onChange={(e) => handleSameAsSenderChange(e.target.checked)}
+                className="w-4 h-4 text-orange-500 border-gray-300 rounded focus:ring-orange-400"
+              />
+              與訂購人相同
+            </label>
+          </div>
           <input
             type="text"
             placeholder="收件人姓名"
             value={formData.receiverName}
-            onChange={(e) => setFormData({...formData, receiverName: e.target.value})}
-            className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-transparent"
+            onChange={(e) => handleFieldChange('receiverName', e.target.value)}
+            className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-transparent ${
+              sameAsSender ? 'bg-gray-100 text-gray-600' : ''
+            }`}
+            disabled={sameAsSender}
             required
           />
           <input
             type="tel"
             placeholder="收件人電話"
             value={formData.receiverPhone}
-            onChange={(e) => setFormData({...formData, receiverPhone: e.target.value})}
-            className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-transparent"
+            onChange={(e) => handleFieldChange('receiverPhone', e.target.value)}
+            className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-transparent ${
+              sameAsSender ? 'bg-gray-100 text-gray-600' : ''
+            }`}
+            disabled={sameAsSender}
             required
           />
           <textarea
             placeholder="收件地址"
             value={formData.receiverAddress}
-            onChange={(e) => setFormData({...formData, receiverAddress: e.target.value})}
-            className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-transparent h-24"
+            onChange={(e) => handleFieldChange('receiverAddress', e.target.value)}
+            className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-transparent h-24 ${
+              sameAsSender ? 'bg-gray-100 text-gray-600' : ''
+            }`}
+            disabled={sameAsSender}
             required
           />
         </div>
