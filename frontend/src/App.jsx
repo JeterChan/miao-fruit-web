@@ -142,7 +142,7 @@ const App = () => {
           try {
             // Calculate total items and price
             const totalItems = cart.reduce((sum, item) => sum + item.cartQuantity, 0);
-            const totalPrice = totalAmount;
+            const totalPrice = successData.totalAmount;
             
             // Create order data for message
             const messageOrderData = {
