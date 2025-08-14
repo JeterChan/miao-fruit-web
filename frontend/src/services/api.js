@@ -42,5 +42,73 @@ export const api = {
       console.error('Error submitting order:', error);
       throw error;
     }
+  },
+
+  // LINE Messaging API methods
+  sendMessageToUser: async (userId, message) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/line/send-message`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          userId: userId,
+          message: message
+        })
+      });
+
+      const result = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to send message');
+      }
+
+      return {
+        success: true,
+        message: 'Message sent to user successfully',
+        data: result
+      };
+    } catch (error) {
+      console.error('Failed to send message to user:', error);
+      return {
+        success: false,
+        error: error.message
+      };
+    }
+  },
+
+  sendTextMessage: async (userId, text) => {
+    return await api.sendMessageToUser(userId, {
+      type: 'text',
+      text: text
+    });
+  },
+
+  sendFlexMessage: async (userId, altText, contents) => {
+    return await api.sendMessageToUser(userId, {
+      type: 'flex',
+      altText: altText,
+      contents: contents
+    });
+  },
+
+  sendImageMessage: async (userId, originalContentUrl, previewImageUrl) => {
+    return await api.sendMessageToUser(userId, {
+      type: 'image',
+      originalContentUrl: originalContentUrl,
+      previewImageUrl: previewImageUrl || originalContentUrl
+    });
+  },
+
+  sendLocationMessage: async (userId, title, address, latitude, longitude) => {
+    return await api.sendMessageToUser(userId, {
+      type: 'location',
+      title: title,
+      address: address,
+      latitude: latitude,
+      longitude: longitude
+    });
   }
 };

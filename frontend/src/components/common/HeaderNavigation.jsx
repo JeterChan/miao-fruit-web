@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ShoppingCart, Package, Phone, Menu, X, LogIn, LogOut, Send } from 'lucide-react';
-import { loginWithLiff, logoutFromLiff, sendTextMessage } from '../../utils/liff';
+import { loginWithLiff, logoutFromLiff } from '../../utils/liff';
+import { api } from '../../services/api';
 
 const HeaderNavigation = ({ activeTab, setActiveTab, cartCount, productTab, setProductTab, userProfile, liffInitialized }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -11,7 +12,7 @@ const HeaderNavigation = ({ activeTab, setActiveTab, cartCount, productTab, setP
       return;
     }
     
-    const result = await sendTextMessage(userProfile.userId, '測試訊息：這是來自妙媽媽果園的測試訊息！🍐');
+    const result = await api.sendTextMessage(userProfile.userId, '測試訊息：這是來自妙媽媽果園的測試訊息！🍐');
     if (result.success) {
       alert('訊息發送成功！');
     } else {
