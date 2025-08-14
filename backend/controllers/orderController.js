@@ -81,15 +81,6 @@ const submitOrder = async (req, res) => {
       });
     }
     
-    // 驗證 Email 格式
-    // const emailRegex = /^\S+@\S+\.\S+$/;
-    // if (!emailRegex.test(customerEmail)) {
-    //   return res.status(400).json({
-    //     status: 'error',
-    //     message: '請提供有效的 Email'
-    //   });
-    // }
-    
     // 產生訂單編號
     const orderNumber = await generateOrderNumber();
     
