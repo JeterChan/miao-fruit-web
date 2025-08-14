@@ -137,6 +137,10 @@ const App = () => {
         clearCart();
         setActiveTab('order-success');
 
+        // Clear saved form data after successful submission
+        localStorage.removeItem('orderFormData');
+        localStorage.removeItem('orderFormSameAsSender');
+
         // Smooth scroll to top after order success
         setTimeout(() => {
           window.scrollTo({

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { User, MapPin } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { User, MapPin, RotateCcw, Info } from 'lucide-react';
 
 const OrderForm = ({ cart, onSubmitOrder, isSubmitting }) => {
   const [formData, setFormData] = useState({
@@ -13,6 +13,41 @@ const OrderForm = ({ cart, onSubmitOrder, isSubmitting }) => {
   });
   
   const [sameAsSender, setSameAsSender] = useState(false);
+  const [hasLoadedSavedData, setHasLoadedSavedData] = useState(false);
+
+  // Load saved form data from localStorage on component mount
+  useEffect(() => {
+    const savedFormData = localStorage.getItem('orderFormData');
+    const savedSameAsSender = localStorage.getItem('orderFormSameAsSender');
+    
+    if (savedFormData) {
+      try {
+        const parsedData = JSON.parse(savedFormData);
+        // Only load if there's actual data (not empty form)
+        const hasData = Object.values(parsedData).some(value => value && value.trim() !== '');
+        if (hasData) {
+          setFormData(parsedData);
+          setHasLoadedSavedData(true);
+        }
+      } catch (error) {
+        console.error('Error parsing saved form data:', error);
+      }
+    }
+    
+    if (savedSameAsSender) {
+      setSameAsSender(JSON.parse(savedSameAsSender));
+    }
+  }, []);
+
+  // Save form data to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('orderFormData', JSON.stringify(formData));
+  }, [formData]);
+
+  // Save sameAsSender state to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('orderFormSameAsSender', JSON.stringify(sameAsSender));
+  }, [sameAsSender]);
 
   // Handle checkbox change to copy sender info to receiver
   const handleSameAsSenderChange = (checked) => {
@@ -44,6 +79,23 @@ const OrderForm = ({ cart, onSubmitOrder, isSubmitting }) => {
     }
   };
 
+  // Clear saved form data
+  const clearSavedData = () => {
+    localStorage.removeItem('orderFormData');
+    localStorage.removeItem('orderFormSameAsSender');
+    setFormData({
+      senderName: '',
+      senderPhone: '',
+      senderAddress: '',
+      receiverName: '',
+      receiverPhone: '',
+      receiverAddress: '',
+      notes: ''
+    });
+    setSameAsSender(false);
+    setHasLoadedSavedData(false);
+  };
+
   const handleSubmit = () => {
     if (!formData.senderName || !formData.senderPhone || !formData.receiverName || !formData.receiverPhone) {
       alert('請填寫必要資訊');
@@ -57,6 +109,17 @@ const OrderForm = ({ cart, onSubmitOrder, isSubmitting }) => {
 
   return (
     <div className="space-y-6">
+      {/* 已載入儲存資料提示 */}
+      {hasLoadedSavedData && (
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 flex items-start gap-3">
+          <Info className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+          <div>
+            <h4 className="text-blue-800 font-medium mb-1">已載入之前儲存的資料</h4>
+            <p className="text-blue-700 text-sm">我們已自動填入您之前輸入的寄件人和收件人資訊，您可以直接使用或修改。</p>
+          </div>
+        </div>
+      )}
+
       <div className="grid md:grid-cols-2 gap-6">
         {/* 訂購人資訊 */}
         <div className="space-y-4">
@@ -220,14 +283,27 @@ const OrderForm = ({ cart, onSubmitOrder, isSubmitting }) => {
         className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-transparent h-20"
       />
 
-      {/* 提交按鈕 */}
-      <button
-        onClick={handleSubmit}
-        disabled={isSubmitting}
-        className="w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-4 rounded-lg text-lg font-semibold hover:from-green-600 hover:to-green-700 transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-      >
-        {isSubmitting ? '提交中...' : '提交訂單'}
-      </button>
+      {/* 按鈕區域 */}
+      <div className="flex flex-col sm:flex-row gap-4">
+        {/* 清除資料按鈕 */}
+        <button
+          type="button"
+          onClick={clearSavedData}
+          className="flex items-center justify-center gap-2 bg-gray-500 hover:bg-gray-600 text-white py-3 px-6 rounded-lg font-medium transition-all shadow-md sm:w-auto"
+        >
+          <RotateCcw className="w-4 h-4" />
+          清除資料
+        </button>
+        
+        {/* 提交按鈕 */}
+        <button
+          onClick={handleSubmit}
+          disabled={isSubmitting}
+          className="flex-1 bg-gradient-to-r from-green-500 to-green-600 text-white py-4 rounded-lg text-lg font-semibold hover:from-green-600 hover:to-green-700 transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {isSubmitting ? '提交中...' : '提交訂單'}
+        </button>
+      </div>
     </div>
   );
 };
