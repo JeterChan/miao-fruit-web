@@ -110,8 +110,8 @@ const HeaderNavigation = ({ activeTab, setActiveTab, cartCount, productTab, setP
         <div className="hidden md:flex items-center justify-between">
           <div className="flex items-center">
             {/* Logo 圖片區域 */}
-            <a 
-              href={process.env.NODE_ENV === 'development' ? process.env.REACT_APP_FRONTEND_URL : '/'}
+            <button 
+              onClick={() => handleProductTabChange('single')}
               className="relative mr-4 hover:opacity-80 transition-opacity"
             >
               <img 
@@ -119,16 +119,16 @@ const HeaderNavigation = ({ activeTab, setActiveTab, cartCount, productTab, setP
                 alt="妙媽媽果園" 
                 className="w-16 h-16 rounded-full shadow-lg object-cover"
               />
-            </a>
+            </button>
             
             {/* 品牌名稱和標語 */}
             <div>
-              <a 
-                href={process.env.NODE_ENV === 'development' ? process.env.REACT_APP_FRONTEND_URL : '/'}
+              <button 
+                onClick={() => handleProductTabChange('single')}
                 className="text-2xl font-bold text-gray-800 hover:text-orange-700 transition-colors"
               >
                 妙媽媽果園
-              </a>
+              </button>
               <p className="text-gray-600 text-sm">香甜可口好滋味・脆口多汁有夠讚</p>
             </div>
           </div>
@@ -206,8 +206,8 @@ const HeaderNavigation = ({ activeTab, setActiveTab, cartCount, productTab, setP
         <div className="hidden sm:flex md:hidden items-center justify-between">
           <div className="flex items-center">
             {/* Logo */}
-            <a 
-              href={process.env.NODE_ENV === 'development' ? process.env.REACT_APP_FRONTEND_URL : '/'}
+            <button 
+              onClick={() => handleProductTabChange('single')}
               className="relative mr-3 hover:opacity-80 transition-opacity"
             >
               <img 
@@ -215,16 +215,16 @@ const HeaderNavigation = ({ activeTab, setActiveTab, cartCount, productTab, setP
                 alt="妙媽媽果園" 
                 className="w-12 h-12 rounded-full shadow-lg object-cover"
               />
-            </a>
+            </button>
             
             {/* 品牌名稱 */}
             <div>
-              <a 
-                href={process.env.NODE_ENV === 'development' ? process.env.REACT_APP_FRONTEND_URL : '/'}
+              <button 
+                onClick={() => handleProductTabChange('single')}
                 className="text-xl font-bold text-gray-800 hover:text-orange-700 transition-colors"
               >
                 妙媽媽果園
-              </a>
+              </button>
               <p className="text-gray-600 text-xs">香甜可口好滋味・脆口多汁有夠讚</p>
             </div>
           </div>
@@ -300,8 +300,8 @@ const HeaderNavigation = ({ activeTab, setActiveTab, cartCount, productTab, setP
         <div className="flex sm:hidden items-center justify-between">
           <div className="flex items-center">
             {/* Logo */}
-            <a 
-              href={process.env.NODE_ENV === 'development' ? process.env.REACT_APP_FRONTEND_URL : '/'}
+            <button 
+              onClick={() => handleProductTabChange('single')}
               className="relative mr-3 hover:opacity-80 transition-opacity"
             >
               <img 
@@ -309,16 +309,16 @@ const HeaderNavigation = ({ activeTab, setActiveTab, cartCount, productTab, setP
                 alt="妙媽媽果園" 
                 className="w-10 h-10 rounded-full shadow-lg object-cover"
               />
-            </a>
+            </button>
             
             {/* 品牌名稱 */}
             <div>
-              <a 
-                href={process.env.NODE_ENV === 'development' ? process.env.REACT_APP_FRONTEND_URL : '/'}
+              <button 
+                onClick={() => handleProductTabChange('single')}
                 className="text-lg font-bold text-gray-800 hover:text-orange-700 transition-colors"
               >
                 妙媽媽果園
-              </a>
+              </button>
             </div>
           </div>
 
@@ -339,12 +339,12 @@ const HeaderNavigation = ({ activeTab, setActiveTab, cartCount, productTab, setP
             {cartCount > 0 && (
               <button
                 onClick={() => setActiveTab('cart')}
-                className="flex items-center gap-1 bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded-full transition-colors cursor-pointer"
+                className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-full transition-colors cursor-pointer shadow-lg"
                 aria-label={`購物車有 ${cartCount} 個商品，點擊查看`}
                 title="點擊查看購物車"
               >
-                <ShoppingCart size={14} />
-                <span className="text-xs font-medium">{cartCount}</span>
+                <ShoppingCart size={18} />
+                <span className="text-sm font-bold">{cartCount}</span>
               </button>
             )}
 

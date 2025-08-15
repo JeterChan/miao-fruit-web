@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { User, MapPin, Info } from 'lucide-react';
+import { User, MapPin } from 'lucide-react';
 
 const OrderForm = ({ cart, onSubmitOrder, isSubmitting }) => {
   const [formData, setFormData] = useState({
@@ -13,7 +13,6 @@ const OrderForm = ({ cart, onSubmitOrder, isSubmitting }) => {
   });
   
   const [sameAsSender, setSameAsSender] = useState(false);
-  const [hasLoadedSavedData, setHasLoadedSavedData] = useState(false);
 
   // Load saved form data from localStorage on component mount
   useEffect(() => {
@@ -27,7 +26,6 @@ const OrderForm = ({ cart, onSubmitOrder, isSubmitting }) => {
         const hasData = Object.values(parsedData).some(value => value && value.trim() !== '');
         if (hasData) {
           setFormData(parsedData);
-          setHasLoadedSavedData(true);
         }
       } catch (error) {
         console.error('Error parsing saved form data:', error);

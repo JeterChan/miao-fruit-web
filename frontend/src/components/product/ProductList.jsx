@@ -23,7 +23,7 @@ const ProductList = ({ products, carouselImages, onAddToCart, productTab }) => {
       </div>
 
       {/* 產品網格 - 根據 Header 選擇的 productTab 顯示對應產品 */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
         {(productTab === 'single' ? products.singleLayer : products.doubleLayer).map(product => (
           <ProductCard
             key={product.id}
