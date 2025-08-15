@@ -93,17 +93,6 @@ const OrderForm = ({ cart, onSubmitOrder, isSubmitting }) => {
 
   return (
     <div className="space-y-6">
-      {/* 已載入儲存資料提示 */}
-      {hasLoadedSavedData && (
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 flex items-start gap-3">
-          <Info className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
-          <div>
-            <h4 className="text-blue-800 font-medium mb-1">已載入之前儲存的資料</h4>
-            <p className="text-blue-700 text-sm">我們已自動填入您之前輸入的寄件人和收件人資訊，您可以直接使用或修改。</p>
-          </div>
-        </div>
-      )}
-
       <div className="grid md:grid-cols-2 gap-6">
         {/* 訂購人資訊 */}
         <div className="space-y-4">

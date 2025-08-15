@@ -9,14 +9,12 @@ export const initializeLiff = async () => {
     });
     
     if (liff.isLoggedIn()) {
-      console.log('User is logged in');
       return {
         success: true,
         isLoggedIn: true,
         profile: await liff.getProfile()
       };
     } else {
-      console.log('User is not logged in');
       return {
         success: true,
         isLoggedIn: false
