@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShoppingCart, Package, Phone, Menu, X, LogIn, LogOut, Send } from 'lucide-react';
+import { ShoppingCart, Package, Phone, Menu, X, LogIn, LogOut, Send, Settings } from 'lucide-react';
 import { loginWithLiff, logoutFromLiff } from '../../utils/liff';
 import { api } from '../../services/api';
 import { LineMessageService } from '../../services/lineMessageService';
@@ -177,6 +177,18 @@ const HeaderNavigation = ({ activeTab, setActiveTab, cartCount, productTab, setP
                   </span>
                 )}
               </button>
+
+              <button
+                onClick={() => handleTabChange('admin')}
+                className={`py-2 px-4 border-b-2 font-medium transition-colors flex items-center gap-2 ${
+                  activeTab === 'admin'
+                    ? 'border-orange-600 text-orange-800'
+                    : 'border-transparent text-gray-700 hover:text-orange-700'
+                }`}
+              >
+                <Settings className="w-4 h-4" />
+                訂單管理
+              </button>
             </nav>
 
             {/* 用戶資訊和聯絡資訊 */}
@@ -271,6 +283,18 @@ const HeaderNavigation = ({ activeTab, setActiveTab, cartCount, productTab, setP
                     {cartCount}
                   </span>
                 )}
+              </button>
+
+              <button
+                onClick={() => handleTabChange('admin')}
+                className={`py-2 px-3 rounded-lg font-medium transition-colors flex items-center gap-2 ${
+                  activeTab === 'admin'
+                    ? 'bg-orange-600 text-white'
+                    : 'text-gray-700 hover:bg-orange-200'
+                }`}
+              >
+                <Settings className="w-4 h-4" />
+                <span className="text-sm">管理</span>
               </button>
             </nav>
 
@@ -402,6 +426,18 @@ const HeaderNavigation = ({ activeTab, setActiveTab, cartCount, productTab, setP
                     {cartCount}
                   </span>
                 )}
+              </button>
+
+              <button
+                onClick={() => handleTabChange('admin')}
+                className={`w-full text-left px-4 py-3 font-medium transition-colors flex items-center gap-3 ${
+                  activeTab === 'admin'
+                    ? 'bg-orange-100 text-orange-800 border-r-4 border-orange-600'
+                    : 'text-gray-700 hover:bg-gray-50'
+                }`}
+              >
+                <Settings className="w-5 h-5" />
+                訂單管理
               </button>
             </nav>
 
