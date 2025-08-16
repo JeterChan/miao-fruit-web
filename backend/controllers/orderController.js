@@ -87,6 +87,7 @@ const submitOrder = async (req, res) => {
     // 建立訂單明細
     const orderItems = [];
     let subtotal = 0;
+    let totalQuantity = 0;
     
     for (const cartItem of cartItems) {
       // 從資料庫取得最新產品資訊
@@ -114,10 +115,11 @@ const submitOrder = async (req, res) => {
       
       orderItems.push(orderItem[0]._id);
       subtotal += itemSubtotal;
+      totalQuantity += cartItem.cartQuantity;
     }
     
-    // 固定運費 100 元
-    const shippingFee = 100;
+    // 運費計算：總數量2個以上免運費，否則收費100元
+    const shippingFee = totalQuantity >= 2 ? 0 : 100;
     const totalAmount = subtotal + shippingFee;
     
     // 建立訂單 (使用 session)
