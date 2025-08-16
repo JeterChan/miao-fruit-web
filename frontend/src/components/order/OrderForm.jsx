@@ -281,7 +281,7 @@ const OrderForm = ({ cart, onSubmitOrder, isSubmitting }) => {
         disabled={isSubmitting}
         className="w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-4 rounded-lg text-lg font-semibold hover:from-green-600 hover:to-green-700 transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {isSubmitting ? '提交中...' : '提交訂單'}
+        {isSubmitting ? '提交中...' : '提交詢價單'}
       </button>
     </div>
   );
