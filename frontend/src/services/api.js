@@ -110,5 +110,87 @@ export const api = {
       latitude: latitude,
       longitude: longitude
     });
+  },
+
+  // Admin API methods
+  admin: {
+    // Get all orders with optional filtering and pagination
+    getAllOrders: async (filters = {}) => {
+      try {
+        const queryParams = new URLSearchParams();
+        
+        // Add pagination parameters
+        queryParams.append('page', filters.page || 1);
+        queryParams.append('limit', filters.limit || 10);
+        
+        // Add optional filter parameters
+        if (filters.status) queryParams.append('status', filters.status);
+        if (filters.startDate) queryParams.append('startDate', filters.startDate);
+        if (filters.endDate) queryParams.append('endDate', filters.endDate);
+        if (filters.sort) queryParams.append('sort', filters.sort);
+
+        const response = await fetch(`${API_BASE_URL}/orders/admin/all?${queryParams}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        return await response.json();
+      } catch (error) {
+        console.error('Error fetching admin orders:', error);
+        throw error;
+      }
+    },
+
+    // Update order status
+    updateOrderStatus: async (orderNumber, status) => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/orders/admin/${orderNumber}/status`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify({ status }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        return await response.json();
+      } catch (error) {
+        console.error('Error updating order status:', error);
+        throw error;
+      }
+    },
+
+    // Get order details (for admin, doesn't require email verification)
+    getOrderDetails: async (orderNumber) => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/orders/admin/${orderNumber}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        return await response.json();
+      } catch (error) {
+        console.error('Error fetching order details:', error);
+        throw error;
+      }
+    }
   }
 };

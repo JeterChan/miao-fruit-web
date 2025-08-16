@@ -7,4 +7,8 @@ router.post('/submit', orderController.submitOrder);           // POST /api/orde
 router.get('/status', orderController.getOrderStatus);         // GET /api/orders/status?orderNumber=xxx&email=xxx
 router.get('/:orderNumber', orderController.getOrderDetails);  // GET /api/orders/:orderNumber?email=xxx
 
+// 管理員路由
+router.get('/admin/all', orderController.getAllOrders);        // GET /api/orders/admin/all
+router.put('/admin/:orderNumber/status', orderController.updateOrderStatus); // PUT /api/orders/admin/:orderNumber/status
+
 module.exports = router;

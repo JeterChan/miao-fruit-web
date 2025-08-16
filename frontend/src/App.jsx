@@ -4,6 +4,7 @@ import Footer from './components/common/Footer';
 import ProductList from './components/product/ProductList';
 import Cart from './components/cart/Cart';
 import OrderSuccess from './components/order/OrderSuccess';
+import OrderManagement from './components/admin/OrderManagement';
 import { api } from './services/api';
 import useCart from './hooks/useCart';
 import { initializeLiff } from './utils/liff';
@@ -255,6 +256,10 @@ const App = () => {
             orderData={orderSuccess}
             onBackToProducts={handleBackToProducts}
           />
+        )}
+
+        {activeTab === 'admin' && (
+          <OrderManagement />
         )}
       </main>
 

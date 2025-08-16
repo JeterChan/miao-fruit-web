@@ -140,7 +140,7 @@ const submitOrder = async (req, res) => {
       shippingFee,
       totalAmount,
       notes: notes || '',
-      status: 'pending'
+      status: 'processing'
     }], { session });
     
     // 提交交易
@@ -155,7 +155,7 @@ const submitOrder = async (req, res) => {
         subtotal: order[0].subtotal,
         shippingFee: order[0].shippingFee,
         totalAmount: order[0].totalAmount,
-        status: '待處理'
+        status: '處理中'
       }
     });
     
@@ -199,11 +199,9 @@ const getOrderStatus = async (req, res) => {
     }
     
     const statusText = {
-      'pending': '待處理',
+      'pending': '處理中',
       'processing': '處理中',
-      'shipped': '已出貨',
-      'delivered': '已送達',
-      'cancelled': '已取消'
+      'shipped': '已出貨'
     };
     
     res.status(200).json({
@@ -348,17 +346,29 @@ const updateOrderStatus = async (req, res) => {
       });
     }
     
-    const validStatuses = ['pending', 'processing', 'shipped', 'delivered', 'cancelled'];
+    // Convert Chinese status to English for database storage
+    const statusMapping = {
+      '處理中': 'processing',
+      '已出貨': 'shipped',
+      'pending': 'pending',
+      'processing': 'processing',
+      'shipped': 'shipped'
+    };
+
+    const validStatuses = ['pending', 'processing', 'shipped', '處理中', '已出貨'];
     if (!validStatuses.includes(status)) {
       return res.status(400).json({
         status: 'error',
         message: '無效的訂單狀態'
       });
     }
+
+    // Use the mapped status for database update
+    const dbStatus = statusMapping[status] || status;
     
     const order = await Order.findOneAndUpdate(
       { orderNumber },
-      { status },
+      { status: dbStatus },
       { new: true }
     );
     
