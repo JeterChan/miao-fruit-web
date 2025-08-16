@@ -38,7 +38,7 @@ export class LineMessageService {
           this._createSeparator(),
           this._createOrderItemsSection(cart, totalItems, totalPrice, shippingFee),
           this._createSeparator(),
-          this._createBankAccountSection()
+          this._createInquirementSection()
         ]
       },
       footer: {
@@ -386,6 +386,79 @@ export class LineMessageService {
           color: "#E65100",
           wrap: true,
           margin: "sm"
+        }
+      ]
+    };
+  }
+
+  static _createInquirementSection() {
+    return {
+      type: "box",
+      layout: "vertical",
+      spacing: "md",
+      contents: [
+        {
+          type: "text",
+          text: "📋 後續流程說明：",
+          weight: "bold",
+          size: "md",
+          color: "#FF6B35"
+        },
+        {
+          type: "box",
+          layout: "vertical",
+          spacing: "sm",
+          margin: "md",
+          contents: [
+            {
+              type: "text",
+              text: "1️⃣ 我們會立即為您確認商品庫存",
+              size: "sm",
+              color: "#666666",
+              wrap: true
+            },
+            {
+              type: "text",
+              text: "2️⃣ 確認庫存後會提供付款方式資訊",
+              size: "sm",
+              color: "#666666",
+              wrap: true
+            },
+            {
+              type: "text",
+              text: "3️⃣ 同時寄送最終的訂單確認表",
+              size: "sm",
+              color: "#666666",
+              wrap: true
+            }
+          ]
+        },
+        {
+          type: "separator",
+          margin: "md"
+        },
+        {
+          type: "box",
+          layout: "horizontal",
+          spacing: "sm",
+          margin: "md",
+          contents: [
+            {
+              type: "text",
+              text: "⚠️",
+              size: "sm",
+              flex: 0
+            },
+            {
+              type: "text",
+              text: "重要提醒：此為詢價單，不會立即扣款",
+              size: "sm",
+              color: "#FF6B35",
+              weight: "bold",
+              wrap: true,
+              flex: 1
+            }
+          ]
         }
       ]
     };
