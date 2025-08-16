@@ -38,8 +38,8 @@ const OrderSuccess = ({ orderData, onBackToProducts }) => {
         <div className="flex justify-center mb-4">
           <CheckCircle className="w-16 h-16 text-green-500" />
         </div>
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">訂單提交成功！</h1>
-        <p className="text-gray-600">感謝您的訂購，我們會儘快為您處理</p>
+        <h1 className="text-3xl font-bold text-gray-800 mb-2">詢價單提交成功！</h1>
+        <p className="text-gray-600">感謝您的詢價，我們會儘快為您處理</p>
       </div>
 
       {/* 訂單詳情卡片 */}
@@ -47,7 +47,7 @@ const OrderSuccess = ({ orderData, onBackToProducts }) => {
         <div className="border-b border-gray-200 pb-4 mb-4">
           <h2 className="text-xl font-semibold text-gray-800 flex items-center gap-2">
             <Package className="w-5 h-5" />
-            訂單詳情
+            詢價單詳情
           </h2>
         </div>
 
@@ -55,7 +55,7 @@ const OrderSuccess = ({ orderData, onBackToProducts }) => {
         <div className="mb-6">
           <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
             <div className="flex justify-between items-center">
-              <span className="text-gray-600">訂單編號</span>
+              <span className="text-gray-600">詢價單編號</span>
               <span className="text-lg font-bold text-orange-600">{orderData.orderNumber}</span>
             </div>
           </div>

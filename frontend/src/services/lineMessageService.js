@@ -19,7 +19,7 @@ export class LineMessageService {
           },
           {
             type: "text",
-            text: "訂單確認通知",
+            text: "詢價單確認通知",
             
           },
           this._createOrderNumberSection(orderData.orderNumber),
@@ -47,7 +47,7 @@ export class LineMessageService {
         contents: [
           {
             type: "text",
-            text: "感謝您的訂購！我們會盡快為您處理訂單。",
+            text: "感謝您的詢價！我們會盡快為您確認庫存。",
             size: "sm",
             color: "#666666",
             align: "center",
@@ -70,32 +70,32 @@ export class LineMessageService {
 
   // Create simple text order confirmation
   static createOrderConfirmationText(orderData, cart, totalItems, totalPrice, shippingFee = null) {
-    return `🍐 妙媽媽果園訂單確認
+    return `🍐 妙媽媽果園詢價單確認
 
-訂單編號：${orderData.orderNumber}
+    詢價單編號：${orderData.orderNumber}
 
-寄件人：${orderData.senderName} (${orderData.senderPhone})
-寄件地址：${orderData.senderAddress}
+    寄件人：${orderData.senderName} (${orderData.senderPhone})
+    寄件地址：${orderData.senderAddress}
 
-收件人：${orderData.receiverName} (${orderData.receiverPhone})
-收件地址：${orderData.receiverAddress}
+    收件人：${orderData.receiverName} (${orderData.receiverPhone})
+    收件地址：${orderData.receiverAddress}
 
-訂購商品：
-${cart.map(item => `• ${item.grade} x ${item.cartQuantity}盒 - NT$${(item.price * item.cartQuantity).toLocaleString()}`).join('\n')}
+    訂購商品：
+    ${cart.map(item => `• ${item.grade} x ${item.cartQuantity}盒 - NT$${(item.price * item.cartQuantity).toLocaleString()}`).join('\n')}
 
-小計：NT$${(totalPrice - (shippingFee || 0)).toLocaleString()}${shippingFee !== null ? `
-運費：${shippingFee === 0 ? '免運費' : `NT$${shippingFee.toLocaleString()}`}` : ''}
-總計：${totalItems}盒 - NT$${totalPrice.toLocaleString()}
+    小計：NT$${(totalPrice - (shippingFee || 0)).toLocaleString()}${shippingFee !== null ? `
+    運費：${shippingFee === 0 ? '免運費' : `NT$${shippingFee.toLocaleString()}`}` : ''}
+    總計：${totalItems}盒 - NT$${totalPrice.toLocaleString()}
 
-💰 付款資訊
-中華郵政代號：700
-戶名：劉芳妙
-帳號：0291377-0159424
+    📋 後續流程說明：
+    1️⃣ 我們會立即為您確認商品庫存
+    2️⃣ 確認庫存後會提供付款方式資訊
+    3️⃣ 同時寄送最終的訂單確認表
 
-⚠️ 匯款完成後，請務必告知「匯款帳號末5碼」及「匯款金額」
+    ⚠️ 重要提醒：此為詢價單，不會立即扣款
 
-感謝您的訂購！我們會盡快為您處理訂單。
-如有問題請聯絡：0910-567118`;
+    感謝您的詢價！我們會盡快為您確認庫存。
+    如有問題請聯絡：0910-567118`;
   }
 
   // Private helper methods
