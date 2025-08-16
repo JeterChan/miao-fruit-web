@@ -196,28 +196,49 @@ const OrderForm = ({ cart, onSubmitOrder, isSubmitting }) => {
         </div>
       </div>
 
-      {/* 付款方式 */}
+      {/* 詢價流程說明 */}
       <div className="bg-orange-50 p-6 rounded-lg">
-        <h3 className="text-lg font-semibold text-gray-800 mb-4">付款方式</h3>
-        <div className="space-y-3">
-          <label className="flex items-center gap-3">
-            <input
-              type="radio"
-              name="paymentMethod"
-              value="匯款"
-              checked={formData.paymentMethod === '匯款'}
-              onChange={(e) => setFormData({...formData, paymentMethod: e.target.value})}
-              className="w-4 h-4 text-orange-500"
-              required
-            />
-            <span>銀行匯款/轉帳</span>
-          </label>
-          <div className="ml-7 text-sm text-gray-600 space-y-1">
-            <p>中華郵政代號: 700</p>
-            <p>戶名: 劉芳妙</p>
-            <p>帳號: 0291377-0159424</p>
-            <p className="text-orange-600 text-sm mt-4">
-              ※ 匯款完成後，請務必告知「匯款帳號末5碼」及「匯款金額」
+        <h3 className="text-lg font-semibold text-gray-800 mb-4">詢價流程說明</h3>
+        <div className="space-y-4">
+          <div className="flex items-start gap-3">
+            <div className="w-6 h-6 bg-orange-500 text-white rounded-full flex items-center justify-center text-sm font-medium mt-0.5">
+              1
+            </div>
+            <div>
+              <p className="text-gray-700 font-medium">提交詢價需求</p>
+              <p className="text-sm text-gray-600">填寫完整的商品資訊和聯絡方式</p>
+            </div>
+          </div>
+          
+          <div className="flex items-start gap-3">
+            <div className="w-6 h-6 bg-orange-500 text-white rounded-full flex items-center justify-center text-sm font-medium mt-0.5">
+              2
+            </div>
+            <div>
+              <p className="text-gray-700 font-medium">商家確認庫存</p>
+              <p className="text-sm text-gray-600">我們會確認商品庫存狀況並計算最終報價</p>
+            </div>
+          </div>
+          
+          <div className="flex items-start gap-3">
+            <div className="w-6 h-6 bg-orange-500 text-white rounded-full flex items-center justify-center text-sm font-medium mt-0.5">
+              3
+            </div>
+            <div>
+              <p className="text-gray-700 font-medium">提供付款資訊</p>
+              <p className="text-sm text-gray-600">確認有庫存後，將主動提供付款方式和帳戶資訊</p>
+            </div>
+          </div>
+          
+          <div className="mt-5 p-4 bg-orange-100 rounded-lg">
+            <p className="text-orange-700 text-sm font-medium flex items-center gap-2">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+              </svg>
+              重要提醒
+            </p>
+            <p className="text-orange-600 text-sm mt-1">
+              此為詢價單，不會立即扣款。我們會在確認庫存後與您聯繫並提供完整的付款資訊。
             </p>
           </div>
         </div>
@@ -225,7 +246,7 @@ const OrderForm = ({ cart, onSubmitOrder, isSubmitting }) => {
 
       {/* 訂單摘要 */}
       <div className="bg-green-50 p-6 rounded-lg">
-        <h3 className="text-lg font-semibold text-gray-800 mb-4">訂單摘要</h3>
+        <h3 className="text-lg font-semibold text-gray-800 mb-4">詢價單摘要</h3>
         <div className="space-y-2">
           <div className="flex justify-between">
             <span>商品小計</span>
@@ -240,7 +261,7 @@ const OrderForm = ({ cart, onSubmitOrder, isSubmitting }) => {
             <span className="text-green-600">${totalAmount + shipping}</span>
           </div>
           {totalAmount < 1000 && (
-            <p className="text-sm text-orange-600">※ 單筆運費$100，滿$1000免運費</p>
+            <p className="text-sm text-orange-600">※ 單層運費$100，兩層以上免運</p>
           )}
           <p className="text-red-500">只限「郵局宅配」運送（週一～週四寄貨）</p>
         </div>
