@@ -114,19 +114,6 @@ export const api = {
 
   // Admin API methods
   admin: {
-    // Get admin headers
-    getAdminHeaders: () => {
-      const headers = {
-        'Content-Type': 'application/json',
-      };
-      
-      // Add admin authentication
-      const adminKey = process.env.REACT_APP_ADMIN_API_KEY;
-      headers['x-admin-key'] = adminKey;
-      
-      return headers;
-    },
-
     // Get all orders with optional filtering and pagination
     getAllOrders: async (filters = {}) => {
       try {
@@ -144,14 +131,13 @@ export const api = {
 
         const response = await fetch(`${API_BASE_URL}/orders/admin/all?${queryParams}`, {
           method: 'GET',
-          headers: api.admin.getAdminHeaders(),
+          headers: {
+            'Content-Type': 'application/json',
+          },
           credentials: 'include',
         });
 
         if (!response.ok) {
-          if (response.status === 401) {
-            throw new Error('需要管理員權限才能存取此資源');
-          }
           throw new Error(`HTTP error! status: ${response.status}`);
         }
 
@@ -167,15 +153,14 @@ export const api = {
       try {
         const response = await fetch(`${API_BASE_URL}/orders/admin/${orderNumber}/status`, {
           method: 'PUT',
-          headers: api.admin.getAdminHeaders(),
+          headers: {
+            'Content-Type': 'application/json',
+          },
           credentials: 'include',
           body: JSON.stringify({ status }),
         });
 
         if (!response.ok) {
-          if (response.status === 401) {
-            throw new Error('需要管理員權限才能存取此資源');
-          }
           throw new Error(`HTTP error! status: ${response.status}`);
         }
 
@@ -191,14 +176,13 @@ export const api = {
       try {
         const response = await fetch(`${API_BASE_URL}/orders/admin/${orderNumber}`, {
           method: 'GET',
-          headers: api.admin.getAdminHeaders(),
+          headers: {
+            'Content-Type': 'application/json',
+          },
           credentials: 'include',
         });
 
         if (!response.ok) {
-          if (response.status === 401) {
-            throw new Error('需要管理員權限才能存取此資源');
-          }
           throw new Error(`HTTP error! status: ${response.status}`);
         }
 
