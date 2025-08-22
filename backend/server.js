@@ -1,21 +1,27 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require('cors');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
-const path = require('path');
+const connectDB = require('./config/database');
+const { initializeModels } = require('./models');
 require('dotenv').config();
 
 // 建立 Express 應用
 const app = express();
 
-// 連接 MongoDB
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log('✅ MongoDB 連接成功'))
-.catch((err) => console.error('❌ MongoDB 連接失敗:', err));
+async function initializeApp() {
+  try {
+    // 1. 連接資料庫
+    const mongoose = await connectDB();
+
+    // 2. 初始化 models
+    initializeModels(mongoose);
+    console.log('✅ Models initialized successfully');
+  } catch (error) {
+    console.error('❌ Failed to initialize app:', error);
+    process.exit(1); // 終止應用程式
+  }
+}
 
 // 中間件設定
 app.use(cors({
@@ -90,10 +96,15 @@ app.use((err, req, res, next) => {
 });
 
 // 啟動伺服器
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`🚀 伺服器運行在 port ${PORT}`);
-  console.log(`📍 環境: ${process.env.NODE_ENV}`);
-  console.log(`🌐 CORS 允許來源: ${process.env.CLIENT_URL}`);
-  console.log(`⏰ Session 過期時間: 1 小時`);
-});
+async function startServer() {
+  await initializeApp();
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`🚀 伺服器運行在 port ${PORT}`);
+    console.log(`📍 環境: ${process.env.NODE_ENV}`);
+    console.log(`🌐 CORS 允許來源: ${process.env.CLIENT_URL}`);
+    console.log(`⏰ Session 過期時間: 1 小時`);
+  });
+}
+
+startServer();

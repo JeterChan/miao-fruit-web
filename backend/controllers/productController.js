@@ -1,8 +1,9 @@
-const Product = require('../models/Product');
+const { getModels } = require('../models');
 
 // 取得所有產品
 const getAllProducts = async (req, res) => {
   try {
+    const { Product } = getModels();
     const products = await Product.find({});
     // 分離單層和雙層產品
     const singleLayer = [];
