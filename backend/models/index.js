@@ -1,5 +1,3 @@
-const createModels = require('../shared/models');
-
 let modelsInstance = null;
 
 const initializeModels = (mongoose) => {
@@ -8,17 +6,21 @@ const initializeModels = (mongoose) => {
     return modelsInstance;
   }
 
-  const dbModels = createModels(mongoose);
-
-  // 篩選order-system需要的models
-  modelsInstance = {
-    Product: dbModels.Product,
-    Order: dbModels.Order,
-    OrderItem: dbModels.OrderItem
+  try {
+    // 篩選order-system需要的models
+      modelsInstance = {
+      Product: require('../shared/models/Product')(mongoose),
+      Order: require('../shared/models/Order')(mongoose),
+      OrderItem: require('../shared/models/OrderItem')(mongoose)
   };
 
-  console.log('✅ Models initialized');
-  return modelsInstance;
+    console.log('✅ Models initialized');
+    return modelsInstance;
+  } catch (error) {
+    console.error('❌ Error initializing models:', error);
+    console.error('Stack:', error.stack);
+    throw error;
+  } 
 };
 
 const getModels = () => {
