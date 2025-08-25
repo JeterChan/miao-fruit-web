@@ -1,4 +1,4 @@
-const createModels = require('fruit-web-models');
+const createModels = require('../shared/models');
 
 let modelsInstance = null;
 

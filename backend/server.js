@@ -64,7 +64,7 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/line', lineRoutes);
 
 // 健康檢查端點
-app.get('/api/health', (req, res) => {
+app.get('/health', (req, res) => {
   res.status(200).json({
     status: 'success',
     message: '伺服器運行正常',
