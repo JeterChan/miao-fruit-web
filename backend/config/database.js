@@ -24,6 +24,8 @@ const connectDB = async () => {
       console.log('MongoDB connection closed through app termination');
       process.exit(0);
     });
+
+    return mongoose;
     
   } catch (error) {
     console.error('❌ Error connecting to MongoDB:', error);

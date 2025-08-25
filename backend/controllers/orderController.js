@@ -1,10 +1,9 @@
-const Order = require('../models/Order');
-const OrderItem = require('../models/OrderItem');
-const Product = require('../models/Product');
 const mongoose = require('mongoose');
+const { getModels } = require('../models');
 
 // 產生唯一訂單編號
 const generateOrderNumber = async () => {
+  const { Order } = getModels();
   const date = new Date();
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -31,6 +30,8 @@ const generateOrderNumber = async () => {
 // 提交訂單（從前端傳送的購物車資料建立訂單）
 const submitOrder = async (req, res) => {
   const session = await mongoose.startSession();
+  // 調用 Product, Order, OrderItem model
+  const { Product, Order, OrderItem } = getModels();
   
   try {
     await session.startTransaction();
@@ -178,7 +179,8 @@ const submitOrder = async (req, res) => {
 const getOrderStatus = async (req, res) => {
   try {
     const { orderNumber, email } = req.query;
-    
+    const { Order } = getModels();
+
     if (!orderNumber || !email) {
       return res.status(400).json({
         status: 'error',
@@ -233,6 +235,7 @@ const getOrderDetails = async (req, res) => {
   try {
     const { orderNumber } = req.params;
     const { email } = req.query;
+    const { Order } = getModels();
     
     if (!email) {
       return res.status(400).json({
@@ -284,7 +287,9 @@ const getAllOrders = async (req, res) => {
       endDate,
       sort = '-createdAt'
     } = req.query;
-    
+
+    const { Order } = getModels();
+
     // 建立查詢條件
     const query = {};
     
@@ -338,7 +343,8 @@ const updateOrderStatus = async (req, res) => {
   try {
     const { orderNumber } = req.params;
     const { status } = req.body;
-    
+    const { Order } = getModels();
+
     if (!status) {
       return res.status(400).json({
         status: 'error',
