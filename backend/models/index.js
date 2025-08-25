@@ -7,8 +7,16 @@ const initializeModels = (mongoose) => {
     console.warn('Models already initialized');
     return modelsInstance;
   }
-  
-  modelsInstance = createModels(mongoose);
+
+  const dbModels = createModels(mongoose);
+
+  // 篩選order-system需要的models
+  modelsInstance = {
+    Product: dbModels.Product,
+    Order: dbModels.Order,
+    OrderItem: dbModels.OrderItem
+  };
+
   console.log('✅ Models initialized');
   return modelsInstance;
 };
