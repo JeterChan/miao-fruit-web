@@ -12,10 +12,6 @@ RUN npm install --only=production
 # Copy source code (including submodule)
 COPY . .
 
-# Change ownership of the app directory to the nodejs user
-RUN chown -R backend:nodejs /app
-USER backend
-
 # Expose port 5000
 EXPOSE 5000
 
