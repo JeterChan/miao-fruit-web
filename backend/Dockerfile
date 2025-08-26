@@ -1,9 +1,6 @@
 # Backend Dockerfile for Node.js Express application
 FROM node:18-alpine
 
-RUN addgroup -g 1001 -S nodejs && \
-    adduser -S backend -u 1001
-
 WORKDIR /app
 
 # Copy package files
@@ -13,9 +10,7 @@ COPY package*.json ./
 RUN npm install --only=production
 
 # Copy source code (including submodule)
-COPY --chown=backend:nodejs . .
-
-USER backend
+COPY . .
 
 # Expose port 5000
 EXPOSE 5000
