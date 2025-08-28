@@ -34,41 +34,41 @@ const OrderSuccess = ({ orderData, onBackToProducts }) => {
   return (
     <div className="max-w-2xl mx-auto animate-slideInFromBottom">
       {/* 成功標題 */}
-      <div className="text-center mb-8">
-        <div className="flex justify-center mb-4">
-          <CheckCircle className="w-16 h-16 text-green-500" />
+      <div className="text-center mb-4">
+        <div className="flex justify-center mb-2">
+          <CheckCircle className="w-12 h-12 text-green-500" />
         </div>
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">詢價單提交成功！</h1>
+        <h1 className="text-2xl font-bold text-gray-800 mb-1">詢價單提交成功！</h1>
         <p className="text-gray-600">感謝您的詢價，我們會儘快為您處理</p>
       </div>
 
       {/* 訂單詳情卡片 */}
-      <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
-        <div className="border-b border-gray-200 pb-4 mb-4">
-          <h2 className="text-xl font-semibold text-gray-800 flex items-center gap-2">
-            <Package className="w-5 h-5" />
+      <div className="bg-white rounded-xl shadow-lg p-4 mb-4">
+        <div className="border-b border-gray-200 pb-2 mb-3">
+          <h2 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
+            <Package className="w-4 h-4" />
             詢價單詳情
           </h2>
         </div>
 
         {/* 訂單編號 */}
-        <div className="mb-6">
-          <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
+        <div className="mb-3">
+          <div className="bg-orange-50 border border-orange-200 rounded-lg p-3">
             <div className="flex justify-between items-center">
               <span className="text-gray-600">詢價單編號</span>
-              <span className="text-lg font-bold text-orange-600">{orderData.orderNumber}</span>
+              <span className="text-md font-bold text-orange-600">{orderData.orderNumber}</span>
             </div>
           </div>
         </div>
 
         {/* 寄件人資訊 */}
-        <div className="mb-6">
-          <h3 className="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2">
-            <User className="w-5 h-5" />
+        <div className="mb-3">
+          <h3 className="text-md font-semibold text-gray-800 mb-2 flex items-center gap-2">
+            <User className="w-4 h-4" />
             寄件人資訊
           </h3>
-          <div className="bg-gray-50 rounded-lg p-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="bg-gray-50 rounded-lg p-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               <div>
                 <span className="text-gray-600">姓名：</span>
                 <span className="font-medium">{orderData.senderName}</span>
@@ -86,13 +86,13 @@ const OrderSuccess = ({ orderData, onBackToProducts }) => {
         </div>
 
         {/* 收件人資訊 */}
-        <div className="mb-6">
-          <h3 className="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2">
-            <MapPin className="w-5 h-5" />
+        <div className="mb-3">
+          <h3 className="text-md font-semibold text-gray-800 mb-2 flex items-center gap-2">
+            <MapPin className="w-4 h-4" />
             收件人資訊
           </h3>
-          <div className="bg-blue-50 rounded-lg p-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="bg-blue-50 rounded-lg p-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               <div>
                 <span className="text-gray-600">姓名：</span>
                 <span className="font-medium">{orderData.receiverName}</span>
@@ -111,20 +111,20 @@ const OrderSuccess = ({ orderData, onBackToProducts }) => {
 
         {/* 備註 */}
         {orderData.notes && (
-          <div className="mb-6">
-            <h3 className="text-lg font-semibold text-gray-800 mb-3">備註</h3>
-            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+          <div className="mb-3">
+            <h3 className="text-md font-semibold text-gray-800 mb-2">備註</h3>
+            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
               <span className="text-gray-700">{orderData.notes}</span>
             </div>
           </div>
         )}
 
         {/* 訂單商品 */}
-        <div className="mb-6">
-          <h3 className="text-lg font-semibold text-gray-800 mb-3">訂購商品</h3>
-          <div className="space-y-3">
+        <div className="mb-3">
+          <h3 className="text-md font-semibold text-gray-800 mb-2">訂購商品</h3>
+          <div className="space-y-2">
             {orderData.items.map((item, index) => (
-              <div key={index} className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+              <div key={index} className="flex justify-between items-center p-2 bg-gray-50 rounded-lg">
                 <div>
                   <span className="font-medium">{item.grade}</span>
                   <span className="text-gray-600 ml-2">x{item.quantity}</span>
@@ -139,18 +139,49 @@ const OrderSuccess = ({ orderData, onBackToProducts }) => {
         </div>
 
         {/* 總金額 */}
-        <div className="border-t border-gray-200 pt-4">
+        <div className="border-t border-gray-200 pt-3">
           <div className="flex justify-between items-center">
-            <span className="text-lg font-semibold text-gray-800">總金額</span>
-            <span className="text-2xl font-bold text-orange-600">{formatPrice(totalAmount)}</span>
+            <span className="text-md font-semibold text-gray-800">總金額</span>
+            <span className="text-xl font-bold text-orange-600">{formatPrice(totalAmount)}</span>
           </div>
         </div>
       </div>
 
+      {/* 付款資訊 */}
+      <div className="bg-green-50 border border-green-200 rounded-xl p-4 mb-3">
+        <h3 className="text-md font-semibold text-gray-800 mb-2">付款方式 轉帳匯款/現金支付</h3>
+        <div className="bg-white rounded-lg p-3 border border-green-100">
+          <div className="space-y-2">
+            <div>
+              <span className="text-gray-600">銀行：</span>
+              <span className="font-medium">中華郵政(代碼700)</span>
+            </div>
+            <div>
+              <span className="text-gray-600">分行：</span>
+              <span className="font-medium">卓蘭郵局</span>
+            </div>
+            <div>
+              <span className="text-gray-600">戶名：</span>
+              <span className="font-medium">劉芳妙</span>
+            </div>
+            <div>
+              <span className="text-gray-600">帳號：</span>
+              <span className="font-bold text-green-700">0291377-0159424</span>
+            </div>
+          </div>
+        </div>
+        <div className="mt-2 p-2 bg-yellow-50 border border-yellow-200 rounded-lg">
+          <p className="text-xs text-yellow-800">
+            <span className="font-medium">※ 匯款完成後，請務必告知</span><br />
+            「匯款帳號末5碼」及「匯款金額」。
+          </p>
+        </div>
+      </div>
+
       {/* 聯絡資訊 */}
-      <div className="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-6">
-        <h3 className="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2">
-          <Phone className="w-5 h-5" />
+      <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-3">
+        <h3 className="text-md font-semibold text-gray-800 mb-2 flex items-center gap-2">
+          <Phone className="w-4 h-4" />
           後續聯絡
         </h3>
         <p className="text-gray-700">

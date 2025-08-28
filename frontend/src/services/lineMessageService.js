@@ -19,7 +19,7 @@ export class LineMessageService {
           },
           {
             type: "text",
-            text: "詢價單確認通知",
+            text: "訂單確認通知",
             
           },
           this._createOrderNumberSection(orderData.orderNumber),
@@ -38,7 +38,7 @@ export class LineMessageService {
           this._createSeparator(),
           this._createOrderItemsSection(cart, totalItems, totalPrice, shippingFee),
           this._createSeparator(),
-          this._createInquirementSection()
+          this._createBankAccountSection(),
         ]
       },
       footer: {
@@ -47,7 +47,7 @@ export class LineMessageService {
         contents: [
           {
             type: "text",
-            text: "感謝您的詢價！我們會盡快為您確認庫存。",
+            text: "感謝您的訂購！我們會在收到匯款後1~3個工作天出貨。",
             size: "sm",
             color: "#666666",
             align: "center",
@@ -55,7 +55,7 @@ export class LineMessageService {
           },
           {
             type: "text",
-            text: "如有問題請聯絡：0910-567118",
+            text: "如有問題請透過官方帳號聯絡我們！",
             size: "xs",
             color: "#999999",
             align: "center",
@@ -86,6 +86,15 @@ export class LineMessageService {
     小計：NT$${(totalPrice - (shippingFee || 0)).toLocaleString()}${shippingFee !== null ? `
     運費：${shippingFee === 0 ? '免運費' : `NT$${shippingFee.toLocaleString()}`}` : ''}
     總計：${totalItems}盒 - NT$${totalPrice.toLocaleString()}
+
+    💰 付款方式 轉帳匯款/現金支付
+    中華郵政(代碼700)
+    卓蘭郵局
+    戶名：劉芳妙
+    帳號：0291377-0159424
+
+    ※ 匯款完成後，請務必告知
+    「匯款帳號末5碼」及「匯款金額」。
 
     📋 後續流程說明：
     1️⃣ 我們會立即為您確認商品庫存
@@ -342,7 +351,7 @@ export class LineMessageService {
       contents: [
         {
           type: "text",
-          text: "💰 付款資訊",
+          text: "💰 付款方式 轉帳匯款/現金支付",
           weight: "bold",
           size: "sm",
           color: "#FF6B35"
@@ -353,7 +362,15 @@ export class LineMessageService {
           contents: [
             {
               type: "text",
-              text: "中華郵政代號：700",
+              text: "中華郵政(代碼700)",
+              size: "sm",
+              color: "#333333",
+              margin: "xs",
+              weight: "bold"
+            },
+            {
+              type: "text",
+              text: "卓蘭郵局",
               size: "sm",
               color: "#555555",
               margin: "xs"
@@ -381,7 +398,7 @@ export class LineMessageService {
         },
         {
           type: "text",
-          text: "⚠️ 匯款完成後，請務必告知「匯款帳號末5碼」及「匯款金額」",
+          text: "※ 匯款完成後，請務必告知\n「匯款帳號末5碼」及「匯款金額」。",
           size: "xs",
           color: "#E65100",
           wrap: true,
