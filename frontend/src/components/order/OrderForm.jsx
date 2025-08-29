@@ -5,9 +5,11 @@ const OrderForm = ({ cart, onSubmitOrder, isSubmitting }) => {
   const [formData, setFormData] = useState({
     senderName: '',
     senderPhone: '',
+    senderPostalCode: '',
     senderAddress: '',
     receiverName: '',
     receiverPhone: '',
+    receiverPostalCode: '',
     receiverAddress: '',
     notes: ''
   });
@@ -55,6 +57,7 @@ const OrderForm = ({ cart, onSubmitOrder, isSubmitting }) => {
         ...prev,
         receiverName: prev.senderName,
         receiverPhone: prev.senderPhone,
+        receiverPostalCode: prev.senderPostalCode,
         receiverAddress: prev.senderAddress
       }));
     } else {
@@ -62,6 +65,7 @@ const OrderForm = ({ cart, onSubmitOrder, isSubmitting }) => {
         ...prev,
         receiverName: '',
         receiverPhone: '',
+        receiverPostalCode: '',
         receiverAddress: ''
       }));
     }
@@ -128,6 +132,21 @@ const OrderForm = ({ cart, onSubmitOrder, isSubmitting }) => {
             className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-transparent"
             required
           />
+          <input
+            type="text"
+            placeholder="郵遞區號"
+            value={formData.senderPostalCode}
+            onChange={(e) => {
+              const newValue = e.target.value;
+              handleFieldChange('senderPostalCode', newValue);
+              // If checkbox is checked, also update receiver info
+              if (sameAsSender) {
+                setFormData(prev => ({ ...prev, senderPostalCode: newValue, receiverPostalCode: newValue }));
+              }
+            }}
+            className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-transparent"
+            maxLength="5"
+          />
           <textarea
             placeholder="訂購人地址"
             value={formData.senderAddress}
@@ -182,6 +201,17 @@ const OrderForm = ({ cart, onSubmitOrder, isSubmitting }) => {
             }`}
             disabled={sameAsSender}
             required
+          />
+          <input
+            type="text"
+            placeholder="郵遞區號"
+            value={formData.receiverPostalCode}
+            onChange={(e) => handleFieldChange('receiverPostalCode', e.target.value)}
+            className={`w-full p-2 border rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-transparent ${
+              sameAsSender ? 'bg-gray-100 text-gray-600' : ''
+            }`}
+            disabled={sameAsSender}
+            maxLength="5"
           />
           <textarea
             placeholder="收件地址"

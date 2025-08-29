@@ -58,9 +58,11 @@ const submitOrder = async (req, res) => {
     const {
       senderName,
       senderPhone,
+      senderPostalCode,
       senderAddress,
       receiverName,
       receiverPhone,
+      receiverPostalCode,
       receiverAddress,
       notes
     } = orderData;
@@ -130,11 +132,13 @@ const submitOrder = async (req, res) => {
       sender: {
         name: senderName,
         phone: senderPhone,
+        postalCode: senderPostalCode || '',
         address: senderAddress
       },
       receiver: {
         name: receiverName,
         phone: receiverPhone,
+        postalCode: receiverPostalCode || '',
         address: receiverAddress
       },
       subtotal,
@@ -276,137 +280,8 @@ const getOrderDetails = async (req, res) => {
   }
 };
 
-// 管理員功能：取得所有訂單
-const getAllOrders = async (req, res) => {
-  try {
-    const {
-      page = 1,
-      limit = 20,
-      status,
-      startDate,
-      endDate,
-      sort = '-createdAt'
-    } = req.query;
-
-    const { Order } = getModels();
-
-    // 建立查詢條件
-    const query = {};
-    
-    if (status) {
-      query.status = status;
-    }
-    
-    if (startDate || endDate) {
-      query.createdAt = {};
-      if (startDate) query.createdAt.$gte = new Date(startDate);
-      if (endDate) query.createdAt.$lte = new Date(endDate);
-    }
-    
-    // 分頁
-    const skip = (page - 1) * limit;
-    
-    // 查詢訂單
-    const orders = await Order.find(query)
-      .sort(sort)
-      .limit(limit * 1)
-      .skip(skip)
-      .populate('orderItems');
-    
-    // 計算總數
-    const total = await Order.countDocuments(query);
-    
-    res.status(200).json({
-      status: 'success',
-      data: {
-        orders,
-        pagination: {
-          page: Number(page),
-          limit: Number(limit),
-          total,
-          pages: Math.ceil(total / limit)
-        }
-      }
-    });
-    
-  } catch (error) {
-    console.error('取得訂單列表錯誤:', error);
-    res.status(500).json({
-      status: 'error',
-      message: '取得訂單列表失敗'
-    });
-  }
-};
-
-// 管理員功能：更新訂單狀態
-const updateOrderStatus = async (req, res) => {
-  try {
-    const { orderNumber } = req.params;
-    const { status } = req.body;
-    const { Order } = getModels();
-
-    if (!status) {
-      return res.status(400).json({
-        status: 'error',
-        message: '請提供新狀態'
-      });
-    }
-    
-    // Convert Chinese status to English for database storage
-    const statusMapping = {
-      '處理中': 'processing',
-      '已出貨': 'shipped',
-      'pending': 'pending',
-      'processing': 'processing',
-      'shipped': 'shipped'
-    };
-
-    const validStatuses = ['pending', 'processing', 'shipped', '處理中', '已出貨'];
-    if (!validStatuses.includes(status)) {
-      return res.status(400).json({
-        status: 'error',
-        message: '無效的訂單狀態'
-      });
-    }
-
-    // Use the mapped status for database update
-    const dbStatus = statusMapping[status] || status;
-    
-    const order = await Order.findOneAndUpdate(
-      { orderNumber },
-      { status: dbStatus },
-      { new: true }
-    );
-    
-    if (!order) {
-      return res.status(404).json({
-        status: 'error',
-        message: '找不到此訂單'
-      });
-    }
-    
-    res.status(200).json({
-      status: 'success',
-      message: '訂單狀態已更新',
-      data: {
-        orderNumber: order.orderNumber,
-        newStatus: order.status
-      }
-    });
-    
-  } catch (error) {
-    console.error('更新訂單狀態錯誤:', error);
-    res.status(500).json({
-      status: 'error',
-      message: '更新訂單狀態失敗'
-    });
-  }
-};
-
 module.exports = {
   submitOrder,
   getOrderStatus,
-  getOrderDetails,
-  getAllOrders,
-  updateOrderStatus
+  getOrderDetails
 };

@@ -77,6 +77,10 @@ const OrderSuccess = ({ orderData, onBackToProducts }) => {
                 <span className="text-gray-600">電話：</span>
                 <span className="font-medium">{orderData.senderPhone}</span>
               </div>
+              <div>
+                <span className="text-gray-600">郵遞區號：</span>
+                <span className="font-medium">{orderData.senderPostalCode}</span>
+              </div>
               <div className="md:col-span-2">
                 <span className="text-gray-600">地址：</span>
                 <span className="font-medium">{orderData.senderAddress}</span>
@@ -100,6 +104,10 @@ const OrderSuccess = ({ orderData, onBackToProducts }) => {
               <div>
                 <span className="text-gray-600">電話：</span>
                 <span className="font-medium">{orderData.receiverPhone}</span>
+              </div>
+              <div>
+                <span className="text-gray-600">郵遞區號：</span>
+                <span className="font-medium">{orderData.receiverPostalCode}</span>
               </div>
               <div className="md:col-span-2">
                 <span className="text-gray-600">地址：</span>
