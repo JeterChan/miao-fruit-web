@@ -1,0 +1,28 @@
+steps:
+# 1. Build the Docker image
+- name: 'gcr.io/cloud-builders/docker'
+  args: 
+  - 'build'
+  - '-t'
+  - 'asia-east1-docker.pkg.dev/${PROJECT_ID}/miao-fruit-shop-backend-repo/my-app:${SHORT_SHA}'
+  - '.'
+
+# 2. Push the Docker image to Artifact Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args:
+    - 'push'
+    - 'asia-east1-docker.pkg.dev/${PROJECT_ID}/miao-fruit-shop-backend-repo/my-app:${SHORT_SHA}'
+
+# 3. Deploy to Cloud Run
+- name: 'gcr.io/google-cloud-sdk/gcloud'
+  args:
+    - 'run'
+    - 'deploy'
+    - 'miao-fruit-shop-backend-repo' # Cloud Run service name
+    - '--image=asia-east1-docker.pkg.dev/${PROJECT_ID}/miao-fruit-shop-backend-repo/my-app:${SHORT_SHA}'
+    - '--region=asia-east1' # Cloud Run region
+    - '--platform=managed'
+    - '--allow-unauthenticated' # Optional: Allow public access
+
+images:
+  - 'asia-east1-docker.pkg.dev/${PROJECT_ID}/miao-fruit-shop-backend-repo/my-app:${SHORT_SHA}'
