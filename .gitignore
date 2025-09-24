@@ -13,8 +13,6 @@ frontend/.env
 frontend/.env.development
 backend/.env
 backend/.env.development
-frontend/.env.example
-backend/.env.example
 
 # Logs
 frontend/npm-debug.log*

@@ -75,9 +75,11 @@ export class LineMessageService {
     詢價單編號：${orderData.orderNumber}
 
     寄件人：${orderData.senderName} (${orderData.senderPhone})
+    寄件郵遞區號：${orderData.senderPostalCode || '未填寫'}
     寄件地址：${orderData.senderAddress}
 
     收件人：${orderData.receiverName} (${orderData.receiverPhone})
+    收件郵遞區號：${orderData.receiverPostalCode || '未填寫'}
     收件地址：${orderData.receiverAddress}
 
     訂購商品：
@@ -155,6 +157,13 @@ export class LineMessageService {
         },
         {
           type: "text",
+          text: `郵遞區號：${orderData.senderPostalCode || '未填寫'}`,
+          size: "sm",
+          color: "#555555",
+          margin: "xs"
+        },
+        {
+          type: "text",
           text: `地址：${orderData.senderAddress}`,
           size: "sm",
           color: "#555555",
@@ -188,6 +197,13 @@ export class LineMessageService {
         {
           type: "text",
           text: `電話：${orderData.receiverPhone}`,
+          size: "sm",
+          color: "#555555",
+          margin: "xs"
+        },
+        {
+          type: "text",
+          text: `郵遞區號：${orderData.receiverPostalCode || '未填寫'}`,
           size: "sm",
           color: "#555555",
           margin: "xs"
