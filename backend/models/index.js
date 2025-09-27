@@ -9,9 +9,10 @@ const initializeModels = (mongoose) => {
   try {
     // 篩選order-system需要的models
       modelsInstance = {
-      Product: require('../shared/models/Product')(mongoose),
-      Order: require('../shared/models/Order')(mongoose),
-      OrderItem: require('../shared/models/OrderItem')(mongoose)
+      Product: require('./Product')(mongoose),
+      Order: require('./Order')(mongoose),
+      OrderItem: require('./OrderItem')(mongoose),
+      Admin: require('./Admin')(mongoose)
   };
 
     console.log('✅ Models initialized');
@@ -29,7 +30,6 @@ const getModels = () => {
   }
   return modelsInstance;
 };
-
 
 module.exports = {
   initializeModels,
